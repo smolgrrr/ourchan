@@ -1,6 +1,5 @@
-// import Player from "./components/Player/Player";
-// import PostButton from "./components/Nostr";
 import Home from "./components/Home";
+import General from "./components/General";
 import './style.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -16,6 +15,7 @@ function App() {
     <div>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/g" element={<General />} />
         </Routes>
     </div>
     </Router>

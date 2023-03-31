@@ -1,5 +1,5 @@
 {
-  "name": "webtorrent-nostr",
+  "name": "ourchan",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
