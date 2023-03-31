@@ -8,9 +8,11 @@ import {
   getPublicKey,
   signEvent,
 } from "nostr-tools";
+import Catalog from './Catalog';
 
 const General = () => {
   const { publish } = useNostr();
+  const [name, setName] = useState("");
   const [subject, setSubject] = useState("");
   const [comment, setComment] = useState("");
   const [file, setFile] = useState("");
@@ -33,7 +35,7 @@ const General = () => {
       content: message,
       kind: 1,
       tags: [
-        ["p", "bb60f27b4de7e3c5983db68ceaf30e5649367d1c4f31df0d167fe87af0c8262e"],
+        ["p", "e1d31f34e0b95e2a078f15cc81d7218bab75b6be794b7976ba6aeb654df88005"],
       ],
       created_at: dateToUnix(),
       pubkey: 'null',
@@ -74,30 +76,26 @@ const General = () => {
         </div>
         <hr className="abovePostForm" />
         <div style={{position: 'relative'}} />
-        <form name="post" method="post" encType="multipart/form-data"><input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
+        <form name="post" method="post" encType="multipart/form-data" onSubmit={handleSubmit}><input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
           <div id="togglePostFormLink" className="desktop">[<a onClick={toggleForm}>Start a New Thread</a>]
           </div>
           <table className="postForm" id="postForm">
             <tbody>
               <tr data-type="Name">
                 <td>Name</td>
-                <td><input name="name" type="text" tabIndex={1} placeholder="Anonymous" /></td>
-              </tr>
-              <tr data-type="Options">
-                <td>Options</td>
-                <td><input name="email" type="text" tabIndex={2} /></td>
+                <td><input name="name" type="text" placeholder="Anonymous" onChange={(e) => setName(e.target.value)}/></td>
               </tr>
               <tr data-type="Subject">
                 <td>Subject</td>
-                <td><input name="sub" type="text" tabIndex={3} /><input type="submit" defaultValue="Post" tabIndex={6} /></td>
+                <td><input name="sub" type="text" onChange={(e) => setSubject(e.target.value)}/><input type="submit" defaultValue="Post" tabIndex={6}/></td>
               </tr>
               <tr data-type="Comment">
                 <td>Comment</td>
-                <td><textarea name="com" cols={48} rows={4} wrap="soft" tabIndex={4} defaultValue={""} /></td>
+                <td><textarea name="com" cols={48} rows={4} wrap="soft" defaultValue={""} onChange={(e) => setComment(e.target.value)}/></td>
               </tr>
-              <tr data-type="File">
+              <tr data-type="Subject">
                 <td>File</td>
-                <td><input id="postFile" name="upfile" type="file" tabIndex={7} /></td>
+                <td><input name="sub" type="text" onChange={(e) => setFile(e.target.value)}/></td>
               </tr>
             </tbody>
             <tfoot>
@@ -141,6 +139,7 @@ const General = () => {
         <div id="ctrl-top" className="desktop">
           <hr /><input type="text" id="search-box" placeholder="Search OPs…" /> [<a href="https://boards.4chan.org/pol/catalog">Catalog</a>] [<a href="https://boards.4chan.org/pol/archive">Archive</a>]
         </div>
+        <Catalog/>
       </div>
       );
  

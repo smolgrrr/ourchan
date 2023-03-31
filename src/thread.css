@@ -1,0 +1,41 @@
+.thread {
+    vertical-align: top;
+    display: inline-block;
+    word-wrap: break-word;
+    overflow: hidden;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    padding: 5px 0 3px;
+    position: relative;
+}
+
+.extended-small .thread {
+    width: 180px;
+    max-height: 320px;
+}
+
+.meta {
+    cursor: help;
+    font-size: 11px;
+    line-height: 8px;
+    margin-top: 2px;
+    margin-bottom: 1px;
+}
+
+.teaser {
+    padding: 0 15px;
+}
+
+#threads {
+    padding: 20px 0;
+    text-align: center;
+}
+
+.threads {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  
