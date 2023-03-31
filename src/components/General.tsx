@@ -1,23 +1,83 @@
 import React from 'react';
+import { useNostr, dateToUnix } from "nostr-react";
+import { useMemo, useState, useEffect } from "react";
+import {
+  type Event as NostrEvent,
+  generatePrivateKey,
+  getEventHash,
+  getPublicKey,
+  signEvent,
+} from "nostr-tools";
 
 const General = () => {
+  const { publish } = useNostr();
+  const [subject, setSubject] = useState("");
+  const [comment, setComment] = useState("");
+  const [file, setFile] = useState("");
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    let message = "subject: " + subject 
+    + "\ncomment: " + comment 
+    + "\nfile: " + file 
+    + "\n";
+
+    if (!message) {
+      alert("no message provided");
+      return;
+    }
+
+    const newEvent: NostrEvent = {
+      id: 'null',
+      content: message,
+      kind: 1,
+      tags: [
+        ["p", "bb60f27b4de7e3c5983db68ceaf30e5649367d1c4f31df0d167fe87af0c8262e"],
+      ],
+      created_at: dateToUnix(),
+      pubkey: 'null',
+      sig: 'null',
+    };
+
+      let sk = generatePrivateKey();
+ 
+      newEvent.pubkey = getPublicKey(sk);
+      newEvent.id = getEventHash(newEvent);
+      newEvent.sig = signEvent(newEvent, sk);
+  
+      publish(newEvent);
+  };
+
+  const toggleForm = () => {
+    const toggleLink = document.getElementById("togglePostFormLink");
+    const postForm = document.getElementById("postForm");
+  
+    if (toggleLink && postForm) {
+      if (postForm.style.display === "none") {
+        toggleLink.style.display = "none";
+        postForm.style.display = "table";
+      } else {
+        toggleLink.style.display = "block";
+        postForm.style.display = "none";
+      }
+    }
+  };
 
   return (
 <div>
+        <div id="boardNavDesktop" className="desktop"><span className="boardList">[ <a href="/g/" title="Anime &amp; Manga">g</a> ] </span></div>
         <div className="pageJump"> <a href="https://boards.4chan.org/pol/#bottom">▼</a> <a href="javascript:void(0);" id="settingsWindowLinkMobile">Settings</a> <a href="https://p.4chan.org/">Mobile</a> <a href="https://www.4chan.org/" target="_top">Home</a> </div>
         <div className="boardBanner">
           <div id="bannerCnt" className="title desktop" data-src="85.png"><img alt="4chan" src="./_pol_ - Politically Incorrect - 4chan_files/85.png" /></div>
           <div className="boardTitle">/g/ - General</div>
         </div>
         <hr className="abovePostForm" />
-        <div className="navLinks mobile"><span className="mobileib button"><a href="https://boards.4chan.org/pol/#bottom">Bottom</a></span> <span className="mobileib button"><a href="https://boards.4chan.org/pol/catalog">Catalog</a></span> <span className="mobileib button"><a href="https://boards.4chan.org/pol/#top_r" id="refresh_top">Refresh</a></span></div>
-        <div id="mpostform"><a href="https://boards.4chan.org/pol/#" className="mobilePostFormToggle mobile hidden button">Start
-            a New Thread</a></div>
         <div style={{position: 'relative'}} />
-        <form name="post" action="https://sys.4chan.org/pol/post" method="post" encType="multipart/form-data"><input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} /><input type="hidden" name="mode" defaultValue="regist" /><input id="postPassword" name="pwd" type="hidden" />
-          <div id="togglePostFormLink" className="desktop">[<a href="https://boards.4chan.org/pol/#">Start a New Thread</a>]
+        <form name="post" method="post" encType="multipart/form-data"><input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
+          <div id="togglePostFormLink" className="desktop">[<a onClick={toggleForm}>Start a New Thread</a>]
           </div>
-          <table className="postForm hideMobile" id="postForm">
+          <table className="postForm" id="postForm">
             <tbody>
               <tr data-type="Name">
                 <td>Name</td>
@@ -35,54 +95,9 @@ const General = () => {
                 <td>Comment</td>
                 <td><textarea name="com" cols={48} rows={4} wrap="soft" tabIndex={4} defaultValue={""} /></td>
               </tr>
-              <tr id="captchaFormPart">
-                <td className="desktop">Verification</td>
-                <td colSpan={2}>
-                  <div id="t-root" />
-                  <div className="passNotice">4chan Pass users can bypass this verification. [<a href="https://www.4chan.org/pass" target="_blank">Learn More</a>] [<a href="https://sys.4chan.org/auth">Login</a>]</div>
-                </td>
-              </tr>
-              <tr data-type="Flag">
-                <td>Flag</td>
-                <td><select name="flag" className="flagSelector">
-                    <option value={0}>Geographic Location</option>
-                    <option value="AC">Anarcho-Capitalist</option>
-                    <option value="AN">Anarchist</option>
-                    <option value="BL">Black Nationalist</option>
-                    <option value="CF">Confederate</option>
-                    <option value="CM">Communist</option>
-                    <option value="CT">Catalonia</option>
-                    <option value="DM">Democrat</option>
-                    <option value="EU">European</option>
-                    <option value="FC">Fascist</option>
-                    <option value="GN">Gadsden</option>
-                    <option value="GY">Gay</option>
-                    <option value="JH">Jihadi</option>
-                    <option value="KN">Kekistani</option>
-                    <option value="MF">Muslim</option>
-                    <option value="NB">National Bolshevik</option>
-                    <option value="NT">NATO</option>
-                    <option value="NZ">Nazi</option>
-                    <option value="PC">Hippie</option>
-                    <option value="PR">Pirate</option>
-                    <option value="RE">Republican</option>
-                    <option value="MZ">Task Force Z</option>
-                    <option value="TM">Templar</option>
-                    <option value="TR">Tree Hugger</option>
-                    <option value="UN">United Nations</option>
-                    <option value="WP">White Supremacist</option>
-                  </select></td>
-              </tr>
               <tr data-type="File">
                 <td>File</td>
                 <td><input id="postFile" name="upfile" type="file" tabIndex={7} /></td>
-              </tr>
-              <tr className="rules">
-                <td colSpan={2}>
-                  <ul className="rules">
-                    <li>Please read the <a href="https://www.4chan.org/rules#pol">Rules</a> and <a href="https://www.4chan.org/faq">FAQ</a> before posting.</li>
-                  </ul>
-                </td>
               </tr>
             </tbody>
             <tfoot>
