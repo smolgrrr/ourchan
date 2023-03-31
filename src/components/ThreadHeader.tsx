@@ -73,7 +73,7 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
         <div id="boardNavDesktop" className="desktop"><span className="boardList">[ <a href="/g/" title="Anime &amp; Manga">g</a> ] </span></div>
         <div className="pageJump"> <a href="https://boards.4chan.org/pol/#bottom">▼</a> <a href="javascript:void(0);" id="settingsWindowLinkMobile">Settings</a> <a href="https://p.4chan.org/">Mobile</a> <a href="https://www.4chan.org/" target="_top">Home</a> </div>
         <div className="boardBanner">
-          <div id="bannerCnt" className="title desktop" data-src="85.png"><img alt="4chan" src="./_pol_ - Politically Incorrect - 4chan_files/85.png" /></div>
+          <div id="bannerCnt" className="title desktop" data-src="7.png"><img alt="4chan" src="7.png" /></div>
           <div className="boardTitle">/g/ - General</div>
         </div>
         <hr className="abovePostForm" />

@@ -18,7 +18,7 @@ const Home = () => {
         <div id="doc">
           <div id="hd">
             <div id="logo-fp">
-              <a href="//www.4chan.org/" title="Home"><img alt="4chan" src="//s.4cdn.org/image/fp/logo-transparent.png" width={300} height={120} /></a>
+              <a href="//www.4chan.org/" title="Home"><img alt="4chan" src="/logo.png" width={300} height={120} /></a>
             </div>
           </div>
           <div id="bd">
@@ -32,7 +32,6 @@ const Home = () => {
                   <div id="wot-cnt"><p>4chan is a simple image-based bulletin board where anyone can post comments and share images. There are boards dedicated to a variety of topics, from Japanese animation and culture to videogames, music, and photography. Users do not need to register an account before participating in the community. Feel free to click on a board below that interests you and jump right in!</p><br /><p>Be sure to familiarize yourself with the <a href="/rules">Rules</a> before posting, and read the <a href="/faq" title="Frequently Asked Questions">FAQ</a> if you wish to learn more about how to use the site.</p></div> </div>
               </div>
             </div>
-            <div id="abc-cnt" style={{margin: '10px auto', width: '728px', height: '90px'}}><iframe scrolling="no" frameBorder={0} marginHeight={0} marginWidth={0} width={728} height={90} name="spot_id_10011955" src="https://a.adtng.com/get/10011955?time=1680234470105" /></div>
             <div className="box-outer top-box" id="boards">
               <div className="box-inner">
                 <div className="boxbar">

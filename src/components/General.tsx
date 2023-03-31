@@ -92,9 +92,9 @@ const General = () => {
   return (
 <div>
         <div id="boardNavDesktop" className="desktop"><span className="boardList">[ <a href="/g/" title="Anime &amp; Manga">g</a> ] </span></div>
-        <div className="pageJump"> <a href="https://boards.4chan.org/pol/#bottom">▼</a> <a href="javascript:void(0);" id="settingsWindowLinkMobile">Settings</a> <a href="https://p.4chan.org/">Mobile</a> <a href="https://www.4chan.org/" target="_top">Home</a> </div>
+        <div className="pageJump"> <a href="#bottom">▼</a> <a href="https://p.4chan.org/">Mobile</a> <a href="https://www.ourchan.org/" target="_top">Home</a> </div>
         <div className="boardBanner">
-          <div id="bannerCnt" className="title desktop" data-src="85.png"><img alt="4chan" src="./_pol_ - Politically Incorrect - 4chan_files/85.png" /></div>
+          <div id="bannerCnt" className="title desktop" data-src="7.png"><img alt="4chan" src="7.png" /></div>
           <div className="boardTitle">/g/ - General</div>
         </div>
         <hr className="abovePostForm" />
@@ -146,7 +146,7 @@ const General = () => {
             <tbody id="blotter-msgs">
               <tr>
                 <td data-utc={1598018313} className="blotter-date">03/31/23</td>
-                <td className="blotter-content">First board added: <a target="_blank" title="Video Games/RPG" href="https://boards.4channel.org/vrpg/">/g/</a></td>
+                <td className="blotter-content">First board added: <a target="_blank" title="General" href="/g">/g/</a></td>
               </tr>
             </tbody>
             <tfoot>
@@ -156,17 +156,8 @@ const General = () => {
             </tfoot>
           </table>
         </form>
-        <hr className="aboveMidAd" />
-        <div className="middlead center">
-          <div><a href="https://boards.4channel.org/biz/"><img alt="" src="./_pol_ - Politically Incorrect - 4chan_files/29a4ae0384f7d4b44353457edb17e29e5c30da2b.gif" /></a>
-          </div>
-        </div>
-        <hr />
-        <div id="danbo-s-t" className="danbo-slot">
-          <div className="danbo_dta danbo-d" data-danbo="27-pol-1-728-90"><iframe marginHeight={0} frameBorder={0} scrolling="no" marginWidth={0} loading="lazy" src="./_pol_ - Politically Incorrect - 4chan_files/gate.html" id="danbo_item_adebchhbejcj" style={{margin: '0px auto', height: '90px', width: '728px'}} /></div>
-        </div>
         <div id="ctrl-top" className="desktop">
-          <hr /><input type="text" id="search-box" placeholder="Search OPs…" /> [<a href="https://boards.4chan.org/pol/catalog">Catalog</a>] [<a href="https://boards.4chan.org/pol/archive">Archive</a>]
+          <hr /><input type="text" id="search-box" placeholder="Search OPs…" /> [<a href="/g">Catalog</a>]
         </div>
         <Catalog/>
       </div>
