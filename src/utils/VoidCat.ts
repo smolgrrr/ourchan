@@ -15,11 +15,13 @@ export default async function VoidCat(file: File | Blob, filename: string): Prom
   const digest = await crypto.subtle.digest("SHA-256", buf);
 
   const req = await fetch(`${VoidCatHost}/upload`, {
-    mode: "cors",
+    mode: "no-cors",
     method: "POST",
     body: buf,
     headers: {
       "Content-Type": "application/octet-stream",
+      'Access-Control-Allow-Origin': 'https://www.ourchan.org/',
+      'Access-Control-Allow-Credentials': 'true',
       "V-Content-Type": file.type,
       "V-Filename": filename,
       "V-Full-Digest": secp.utils.bytesToHex(new Uint8Array(digest)),
