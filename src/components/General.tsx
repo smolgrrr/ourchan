@@ -9,8 +9,7 @@ import {
   signEvent,
 } from "nostr-tools";
 import Catalog from './Catalog';
-import VoidCat from '../utils/VoidCat';
-import { openFile } from "../utils/Util";
+import NostrImg from '../utils/NostrImg';
 
 const General = () => {
   const { publish } = useNostr();
@@ -21,6 +20,11 @@ const General = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!file) {
+      // Handle case when no file is attached
+      return;
+    }
 
     let message = "subject: " + subject 
     + "\ncomment: " + comment 
@@ -53,11 +57,10 @@ const General = () => {
       publish(newEvent);
   };
 
-  async function attachFile() {
+  async function attachFile(file_input: File | null) {
     try {
-      const file = await openFile();
-      if (file) {
-        const rx = await VoidCat(file, file.name);
+      if (file_input) {
+        const rx = await NostrImg(file_input);
         if (rx.url) {
           setFile(n => `${n ? `${n}\n` : ""}${rx.url}`);
         } else if (rx?.error) {
@@ -69,7 +72,7 @@ const General = () => {
         setFile(error?.message);
       }
     }
-  }
+  }  
 
   const toggleForm = () => {
     const toggleLink = document.getElementById("togglePostFormLink");
@@ -115,7 +118,13 @@ const General = () => {
               </tr>
               <tr data-type="Subject">
                 <td>File</td>
-                <td> <button type="button" className="attachment" onClick={attachFile}>Upload</button> {file}</td>
+              <td> <input type="file" name="file_input" id="file_input" required 
+                      onChange={(e) => {
+                        const file_input = e.target.files?.[0];
+                        if (file_input) {
+                          attachFile(file_input);
+                        }}}>
+                    </input></td>
               </tr>
             </tbody>
             <tfoot>
