@@ -9,18 +9,20 @@ import {
   signEvent,
 } from "nostr-tools";
 
-const ThreadHeader = () => {
+interface ThreadHeaderProps {
+    id: string;
+    reply_pk: string;
+}
+
+const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
   const { publish } = useNostr();
-  const [name, setName] = useState("");
-  const [subject, setSubject] = useState("");
   const [comment, setComment] = useState("");
   const [file, setFile] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    let message = "subject: " + subject 
-    + "\ncomment: " + comment 
+    let message = "\ncomment: " + comment 
     + "\nfile: " + file 
     + "\n";
 
@@ -34,7 +36,8 @@ const ThreadHeader = () => {
       content: message,
       kind: 1,
       tags: [
-        ["p", "e1d31f34e0b95e2a078f15cc81d7218bab75b6be794b7976ba6aeb654df88005"],
+        ["e", id],
+        ["p", reply_pk]
       ],
       created_at: dateToUnix(),
       pubkey: 'null',
@@ -80,21 +83,13 @@ const ThreadHeader = () => {
           </div>
           <table className="postForm" id="postForm">
             <tbody>
-              <tr data-type="Name">
-                <td>Name</td>
-                <td><input name="name" type="text" placeholder="Anonymous" onChange={(e) => setName(e.target.value)}/></td>
-              </tr>
-              <tr data-type="Subject">
-                <td>Subject</td>
-                <td><input name="sub" type="text" onChange={(e) => setSubject(e.target.value)}/><input type="submit" defaultValue="Post" tabIndex={6}/></td>
-              </tr>
               <tr data-type="Comment">
                 <td>Comment</td>
                 <td><textarea name="com" cols={48} rows={4} wrap="soft" defaultValue={""} onChange={(e) => setComment(e.target.value)}/></td>
               </tr>
               <tr data-type="Subject">
                 <td>File</td>
-                <td><input name="sub" type="text" onChange={(e) => setFile(e.target.value)}/></td>
+                <td><input name="sub" type="text" onChange={(e) => setFile(e.target.value)}/><input type="submit" defaultValue="Post" tabIndex={6}/></td>
               </tr>
             </tbody>
             <tfoot>

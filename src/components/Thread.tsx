@@ -3,28 +3,34 @@ import { useParams } from 'react-router-dom';
 import { parseContent } from '../utils/parseContent';
 import ThreadHeader from "./ThreadHeader";
 import OPPostContainer from "./OPPostContainer";
+import ReplyContainer from "./ReplyContainer";
 
 const Thread = () => {
     const { id } = useParams();
 
-
-    const { events } = useNostrEvents({
+    const {events: ByOP} = useNostrEvents({
         filter: {
             ids: [id!],
             limit: 1,
         },
     });
+    const {events: ByReplies} = useNostrEvents({
+        filter: {
+          '#e': [id!], 
+          kinds: [1],
+        },
+    });
 
-    const event = events[0];
-    if (!event) {
-        return <ThreadHeader />;
+    const OP_event = ByOP[0];
+    if (!OP_event) {
+        return <ThreadHeader id={'null'} reply_pk={'null'}/>;
       }
 
-    const { subject, comment, file } = parseContent(event.content);
+    const { subject, comment, file } = parseContent(OP_event.content);
 
     return (
         <div>
-            <ThreadHeader />
+            <ThreadHeader id={OP_event.id} reply_pk={OP_event.pubkey}/>
 <hr className="aboveMidAd" />
 <div className="middlead center">
    <div><a href="//boards.4channel.org/fa/"><img alt="" src="//s.4cdn.org/image/contest_banners/0c3e75f8b0f48dc15a11a8ae95cd9a72d0472ce9.jpg" /></a></div>
@@ -40,54 +46,8 @@ const Thread = () => {
    <div className="board">
       <div className="thread" id="t421762085">
         <OPPostContainer file={file} subject={subject} comment={comment}  />
-         <div className="postContainer replyContainer" id="pc421762185">
-            <div className="sideArrows" id="sa421762185">&gt;&gt;</div>
-            <div id="p421762185" className="post reply">
-               <div className="postInfoM mobile" id="pim421762185"> <span className="nameBlock"><span className="name">Anonymous</span> <span className="posteruid id_GUrBLACF">(ID: <span className="hand" title="Highlight posts by this ID">GUrBLACF</span>)</span> <span title="Brazil" className="flag flag-br" /><br /></span><span className="dateTime postNum" data-utc={1680268022}>03/31/23(Fri)09:07:02 <a href="#p421762185" title="Link to this post">No.</a><a href="javascript:quote('421762185');" title="Reply to this post">421762185</a></span></div>
-               <div className="postInfo desktop" id="pi421762185"><input type="checkbox" name="421762185" defaultValue="delete" /> <span className="nameBlock"><span className="name">Anonymous</span> <span className="posteruid id_GUrBLACF">(ID: <span className="hand" title="Highlight posts by this ID" style={{backgroundColor: 'rgb(38, 51, 45)', color: 'white'}}>GUrBLACF</span>)</span> <span title="Brazil" className="flag flag-br" /></span> <span className="dateTime" data-utc={1680268022}>04/01/23(Sat)00:07:02</span> <span className="postNum desktop"><a href="#p421762185" title="Link to this post">No.</a><a href="javascript:quote('421762185');" title="Reply to this post">421762185</a></span><a href="#" className="postMenuBtn" title="Post menu" data-cmd="post-menu">▶</a></div>
-               <div className="file" id="f421762185">
-                  <div className="fileText" id="fT421762185">File: <a href="https://i.imgur.com/RofB4EA.mp4" target="_blank">1680193256790041.gif</a> (2.59 MB, 300x230)</div>
-                  <a className="fileThumb" href="https://i.imgur.com/RofB4EA.mp4" target="_blank">
-                     <img src="https://i.imgur.com/RofB4EA.mp4" alt="2.59 MB" data-md5="HELNfpwz8Eeh7hXnxS4IOQ==" style={{height: '95px', width: '125px'}} loading="lazy" />
-                     <div data-tip data-tip-cb="mShowFull" className="mFileInfo mobile">2.59 MB GIF</div>
-                  </a>
-               </div>
-               <blockquote className="postMessage" id="m421762185"><span className="quote">&gt;sees anti-ukrainian post </span><br /><span className="quote">&gt;American flag </span><br />Every single time</blockquote>
-            </div>
-         </div>
-         <div className="postContainer replyContainer" id="pc421762253">
-            <div className="sideArrows" id="sa421762253">&gt;&gt;</div>
-            <div id="p421762253" className="post reply">
-               <div className="postInfoM mobile" id="pim421762253"> <span className="nameBlock"><span className="name">Anonymous</span> <span className="posteruid id_IIusL3Z2">(ID: <span className="hand" title="Highlight posts by this ID">IIusL3Z2</span>)</span> <span title="United States" className="flag flag-us" /><br /></span><span className="dateTime postNum" data-utc={1680268073}>03/31/23(Fri)09:07:53 <a href="#p421762253" title="Link to this post">No.</a><a href="javascript:quote('421762253');" title="Reply to this post">421762253</a></span></div>
-               <div className="postInfo desktop" id="pi421762253"><input type="checkbox" name="421762253" defaultValue="delete" /> <span className="nameBlock"><span className="name">Anonymous</span> <span className="posteruid id_IIusL3Z2">(ID: <span className="hand" title="Highlight posts by this ID" style={{backgroundColor: 'rgb(130, 251, 151)', color: 'black'}}>IIusL3Z2</span>)</span> <span title="United States" className="flag flag-us" /></span> <span className="dateTime" data-utc={1680268073}>04/01/23(Sat)00:07:53</span> <span className="postNum desktop"><a href="#p421762253" title="Link to this post">No.</a><a href="javascript:quote('421762253');" title="Reply to this post">421762253</a></span><a href="#" className="postMenuBtn" title="Post menu" data-cmd="post-menu">▶</a></div>
-               <blockquote className="postMessage" id="m421762253"><a href="#p421762085" className="quotelink">&gt;&gt;421762085 (OP)</a><br />the best writers money can buy came up with that cringe</blockquote>
-            </div>
-         </div>
-         <div className="postContainer replyContainer" id="pc421762384">
-            <div className="sideArrows" id="sa421762384">&gt;&gt;</div>
-            <div id="p421762384" className="post reply">
-               <div className="postInfoM mobile" id="pim421762384"> <span className="nameBlock"><span className="name">Anonymous</span> <span className="posteruid id_TQjvXDpx">(ID: <span className="hand" title="Highlight posts by this ID">TQjvXDpx</span>)</span> <span title="Singapore" className="flag flag-sg" /><br /></span><span className="dateTime postNum" data-utc={1680268167}>03/31/23(Fri)09:09:27 <a href="#p421762384" title="Link to this post">No.</a><a href="javascript:quote('421762384');" title="Reply to this post">421762384</a></span></div>
-               <div className="postInfo desktop" id="pi421762384"><input type="checkbox" name="421762384" defaultValue="delete" /> <span className="nameBlock"><span className="name">Anonymous</span> <span className="posteruid id_TQjvXDpx">(ID: <span className="hand" title="Highlight posts by this ID" style={{backgroundColor: 'rgb(142, 69, 13)', color: 'white'}}>TQjvXDpx</span>)</span> <span title="Singapore" className="flag flag-sg" /></span> <span className="dateTime" data-utc={1680268167}>04/01/23(Sat)00:09:27</span> <span className="postNum desktop"><a href="#p421762384" title="Link to this post">No.</a><a href="javascript:quote('421762384');" title="Reply to this post">421762384</a></span><a href="#" className="postMenuBtn" title="Post menu" data-cmd="post-menu">▶</a></div>
-               <div className="file" id="f421762384">
-                  <div className="fileText" id="fT421762384">File: <a href="https://i.imgur.com/SODIwHd.png" target="_blank">PolandFloyd.png</a> (306 KB, 593x624)</div>
-                  <a className="fileThumb" href="https://i.imgur.com/SODIwHd.png" target="_blank">
-                     <img src="https://i.imgur.com/SODIwHd.png" alt="306 KB" data-md5="aNuWhGo6gUZOVw1P/emulQ==" style={{height: '125px', width: '118px'}} loading="lazy" />
-                     <div data-tip data-tip-cb="mShowFull" className="mFileInfo mobile">306 KB PNG</div>
-                  </a>
-               </div>
-               <blockquote className="postMessage" id="m421762384"><a href="#p421762085" className="quotelink">&gt;&gt;421762085 (OP)</a><br />Always has been</blockquote>
-            </div>
-         </div>
-      </div>
-      <hr />
-      <div className="navLinks navLinksBot desktop">
-         <div className="open-qr-wrap">[<a href="#" className="open-qr-link" data-cmd="open-qr">Post a Reply</a>]</div>
-         [<a href="/pol/" accessKey="a">Return</a>] [<a href="/pol/catalog">Catalog</a>] [<a href="#top">Top</a>] 
-         <div className="thread-stats"><span className="ts-replies" data-tip="Replies">3</span> / <span className="ts-images" data-tip="Images">2</span> / <span data-tip="Posters" className="ts-ips">4</span> / <span data-tip="Page" className="ts-page">5</span></div>
-         [<a data-cmd="update">Update</a>] [<label><input type="checkbox" title="Fetch new replies automatically" data-cmd="auto" />Auto</label>] <span />
-      </div>
-      <hr className="desktop" />
-      <div className="mobile center"><a className="mobilePostFormToggle button" href="#">Post a Reply</a></div>
+        {ByReplies.map((event) => <ReplyContainer event={event} />)}
+        </div>
    </div>
    <div className="navLinks mobile"><span className="mobileib button"><a href="/pol/" accessKey="a">Return</a></span> <span className="mobileib button"><a href="/pol/catalog">Catalog</a></span> <span className="mobileib button"><a href="#top">Top</a></span> <span className="mobileib button"><a href="#bottom_r" id="refresh_bottom">Refresh</a></span></div>
    <hr className="mobile" />
