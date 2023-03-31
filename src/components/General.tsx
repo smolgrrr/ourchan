@@ -9,6 +9,8 @@ import {
   signEvent,
 } from "nostr-tools";
 import Catalog from './Catalog';
+import VoidCat from '../utils/VoidCat';
+import { openFile } from "../utils/Util";
 
 const General = () => {
   const { publish } = useNostr();
@@ -50,6 +52,24 @@ const General = () => {
   
       publish(newEvent);
   };
+
+  async function attachFile() {
+    try {
+      const file = await openFile();
+      if (file) {
+        const rx = await VoidCat(file, file.name);
+        if (rx.url) {
+          setFile(n => `${n ? `${n}\n` : ""}${rx.url}`);
+        } else if (rx?.error) {
+          setFile(rx.error);
+        }
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setFile(error?.message);
+      }
+    }
+  }
 
   const toggleForm = () => {
     const toggleLink = document.getElementById("togglePostFormLink");
@@ -95,7 +115,7 @@ const General = () => {
               </tr>
               <tr data-type="Subject">
                 <td>File</td>
-                <td><input name="sub" type="text" onChange={(e) => setFile(e.target.value)}/></td>
+                <td> <button type="button" className="attachment" onClick={attachFile}>Upload</button> {file}</td>
               </tr>
             </tbody>
             <tfoot>
