@@ -1,8 +1,6 @@
 import { useNostrEvents, dateToUnix } from "nostr-react";
 import { parseContent } from '../utils/parseContent';
 import { useState, useEffect } from "react";
-import { relayUrls } from "../constants/Const";
-import {SimplePool} from 'nostr-tools'
 import "../thread.css"
 
 interface Event {
@@ -11,24 +9,32 @@ interface Event {
     created_at: number;
     pubkey: string;
   }
-  
-export function EventRow({ event }: { event: Event }) {
-    const { subject, comment, file } = parseContent(event.content);
-    const [replyCount, setReplyCount] = useState(0);
-    const [imageReplyCount, setImageReplyCount] = useState(0);
 
-    const pool = new SimplePool()
+  export function useReplyCounts(event: Event) {
+    const { events } = useNostrEvents({
+      filter: {
+        kinds: [1],
+        '#e': [event.id],
+        limit: 75,    
+      },
+    });
+    const [replyCount, setReplyCount] = useState(events.length);
+    const [imageReplyCount, setImageReplyCount] = useState(0);
+  
     useEffect(() => {
-      const fetchEvents = async () => {
-        const events = await pool.list(relayUrls, [{ '#e': [event.id] }]);
-        setReplyCount(events.length);
-        const filteredEvents = events.filter(
-          (event) => parseContent(event.content).file !== ''
-        );
-        setImageReplyCount(filteredEvents.length);
-      };
-      fetchEvents();
-    }, [event.id]);
+      setReplyCount(events.length)
+      const filteredEvents = events.filter(
+        (event) => parseContent(event.content).file !== ''
+      );
+      setImageReplyCount(filteredEvents.length);
+    }, [events]);
+  
+    return { replyCount, imageReplyCount };
+  }
+
+export function EventRow({ event }: { event: Event }) {
+  const { replyCount, imageReplyCount } = useReplyCounts(event);
+  const { subject, comment, file } = parseContent(event.content);
   
     return (
       <div className="thread">
