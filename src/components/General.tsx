@@ -17,6 +17,7 @@ const General = () => {
   const [subject, setSubject] = useState("");
   const [comment, setComment] = useState("");
   const [file, setFile] = useState("");
+  const [hasSubmittedPost, setHasSubmittedPost] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -26,7 +27,12 @@ const General = () => {
       return;
     }
 
-    let message = "subject:- " + subject
+    if (hasSubmittedPost) {
+      alert('You have already submitted a post.');
+      return;
+    }
+
+    let message = "ourchan.org subject:- " + subject
       + "\ncomment:- " + comment
       + "\nfile:- " + file
       + "\n";
@@ -41,7 +47,7 @@ const General = () => {
       content: message,
       kind: 1,
       tags: [
-        ["p", "bb2a6abc7b91f2ebcdd6d1b71a3a2b1f36a4d4960fda793694bc057408cac5c6"],
+        ["p", "f0a52cef5a51e04fef72a163349f545feb5f0b496c4fb28719b133c59b109cd9"],
       ],
       created_at: dateToUnix(),
       pubkey: 'null',
@@ -55,6 +61,7 @@ const General = () => {
     newEvent.sig = signEvent(newEvent, sk);
 
     publish(newEvent);
+    setHasSubmittedPost(true);
   };
 
   async function attachFile(file_input: File | null) {
@@ -115,6 +122,12 @@ const General = () => {
             <tr data-type="Comment">
               <td>Comment</td>
               <td><textarea name="com" cols={48} rows={4} wrap="soft" defaultValue={""} onChange={(e) => setComment(e.target.value)} /></td>
+            </tr>
+            <tr data-type="Captcha">
+              <td>Captcha</td>
+              <td>
+                <div className="g-recaptcha" data-sitekey="[YOUR_SITE_KEY]"></div>
+              </td>
             </tr>
             <tr data-type="Subject">
               <td>File</td>

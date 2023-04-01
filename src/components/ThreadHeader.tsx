@@ -19,16 +19,22 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
   const { publish } = useNostr();
   const [comment, setComment] = useState("");
   const [file, setFile] = useState("");
+  const [hasSubmittedPost, setHasSubmittedPost] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    let message = "\ncomment:- " + comment 
+    let message = "ourchan.org \ncomment:- " + comment 
     + "\nfile:- " + file 
     + "\n";
 
     if (!message) {
       alert("no message provided");
+      return;
+    }
+
+    if (hasSubmittedPost) {
+      alert('You have already submitted a post.');
       return;
     }
 
@@ -52,6 +58,7 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
       newEvent.sig = signEvent(newEvent, sk);
   
       publish(newEvent);
+      setHasSubmittedPost(true);
   };
 
   async function attachFile(file_input: File | null) {
