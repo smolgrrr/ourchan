@@ -1,6 +1,7 @@
 # OurChan Forum
 ## Motivation: Fuck Jannies
-This is a fork of 4chan, rebuilt on-top of nostr.<br/>
+
+This is a fork of 4chan, rebuilt on-top of nostr. WORK-IN-PROGRESS code is messy<br/>
 To steal fiatjaf's words: 'a truly censorship-resistant alternative to [4chan] that actually has a chance of working' <br/>
 Read [here](https://github.com/nostr-protocol/nostr) if you're new to the nostr protocol.<br/><br/>
 
