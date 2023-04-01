@@ -71,9 +71,9 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
   return (
 <div>
         <div id="boardNavDesktop" className="desktop"><span className="boardList">[ <a href="/g/" title="Anime &amp; Manga">g</a> ] </span></div>
-        <div className="pageJump"> <a href="https://boards.4chan.org/pol/#bottom">▼</a> <a href="javascript:void(0);" id="settingsWindowLinkMobile">Settings</a> <a href="https://p.4chan.org/">Mobile</a> <a href="https://www.4chan.org/" target="_top">Home</a> </div>
+        <div className="pageJump"> <a href="">▼</a> <a href="javascript:void(0);" id="settingsWindowLinkMobile">Settings</a> <a href="">Mobile</a> <a href="" target="_top">Home</a> </div>
         <div className="boardBanner">
-          <div id="bannerCnt" className="title desktop" data-src="7.png"><img alt="4chan" src="7.png" /></div>
+          <div id="bannerCnt" className="title desktop" data-src="7.png"><img alt="ourChan" src="7.png" /></div>
           <div className="boardTitle">/g/ - General</div>
         </div>
         <hr className="abovePostForm" />
@@ -111,12 +111,12 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
             <tbody id="blotter-msgs">
               <tr>
                 <td data-utc={1598018313} className="blotter-date">03/31/23</td>
-                <td className="blotter-content">First board added: <a target="_blank" title="Video Games/RPG" href="https://boards.4channel.org/vrpg/">/g/</a></td>
+                <td className="blotter-content">First board added: <a target="_blank" title="Video Games/RPG" href="/g/">/g/</a></td>
               </tr>
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan={2}>[<a data-utc={1598018313} id="toggleBlotter" href="https://boards.4chan.org/pol/#">Hide</a>]<span> [<a href="https://www.4chan.org/blotter" target="_blank">Show All</a>]</span></td>
+                <td colSpan={2}>[<a data-utc={1598018313} id="toggleBlotter" href="">Hide</a>]<span> [<a href="" target="_blank">Show All</a>]</span></td>
               </tr>
             </tfoot>
           </table>

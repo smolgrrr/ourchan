@@ -38,16 +38,16 @@ const Thread = () => {
    [<a data-cmd="update">Update</a>] [<label><input type="checkbox" title="Fetch new replies automatically" data-cmd="auto" />Auto</label>] <span />
 </div>
 <hr />
-<form name="delform" id="delform" action="https://sys.4chan.org/pol/imgboard.php" method="post">
+<form name="delform" id="delform" method="post">
    <div className="board">
       <div className="thread" id="t421762085">
-        <OPPostContainer file={file} subject={subject} comment={comment}  />
-        {ByReplies.map((event) => <ReplyContainer event={event} />)}
+        <OPPostContainer event={OP_event} file={file} subject={subject} comment={comment}  />
+        {ByReplies.sort((a, b) => a.created_at - b.created_at).map((event) => <ReplyContainer event={event} />)}
         </div>
    </div>
    <div className="navLinks mobile"><span className="mobileib button"><a href="/pol/" accessKey="a">Return</a></span> <span className="mobileib button"><a href="/pol/catalog">Catalog</a></span> <span className="mobileib button"><a href="#top">Top</a></span> <span className="mobileib button"><a href="#bottom_r" id="refresh_bottom">Refresh</a></span></div>
    <hr className="mobile" />
-   <div className="adl">[<a target="_blank" href="https://www.4channel.org/advertise">Tip me</a>]</div>
+   <div className="adl">[<a target="_blank" href="lightning:smolgrrr@ln.tips">Tip me</a>]</div>
    <hr />
    <div className="bottomCtrl desktop">
       <span className="deleteform"><input type="hidden" name="mode" defaultValue="usrdel" />Delete Post:<input type="hidden" name="res" defaultValue={421762085} /> [<input type="checkbox" name="onlyimgdel" defaultValue="on" />File Only]<input type="hidden" id="delPassword" name="pwd" /> <input type="submit" defaultValue="Delete" /><input id="bottomReportBtn" type="button" defaultValue="Report" style={{display: 'none'}} /></span>

@@ -37,12 +37,12 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
-  }
-  
-  .postMenuBtn {
+}
+
+.postMenuBtn {
     display: none;
-  }
-  
-  .thread:hover .postMenuBtn {
+}
+
+.thread:hover .postMenuBtn {
     display: inline-block;
-  }
+}

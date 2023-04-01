@@ -92,9 +92,9 @@ const General = () => {
   return (
 <div>
         <div id="boardNavDesktop" className="desktop"><span className="boardList">[ <a href="/g/" title="Anime &amp; Manga">g</a> ] </span></div>
-        <div className="pageJump"> <a href="#bottom">▼</a> <a href="https://p.4chan.org/">Mobile</a> <a href="https://www.ourchan.org/" target="_top">Home</a> </div>
+        <div className="pageJump"> <a href="#bottom">▼</a> <a href="/">Mobile</a> <a href="/" target="_top">Home</a> </div>
         <div className="boardBanner">
-          <div id="bannerCnt" className="title desktop" data-src="7.png"><img alt="4chan" src="7.png" /></div>
+          <div id="bannerCnt" className="title desktop" data-src="7.png"><img alt="ourChan" src="7.png" /></div>
           <div className="boardTitle">/g/ - General</div>
         </div>
         <hr className="abovePostForm" />
@@ -151,7 +151,7 @@ const General = () => {
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan={2}>[<a data-utc={1598018313} id="toggleBlotter" href="https://boards.4chan.org/pol/#">Hide</a>]<span> [<a href="https://www.4chan.org/blotter" target="_blank">Show All</a>]</span></td>
+                <td colSpan={2}>[<a data-utc={1598018313} id="toggleBlotter" href="">Hide</a>]<span> [<a href="" target="_blank">Show All</a>]</span></td>
               </tr>
             </tfoot>
           </table>
