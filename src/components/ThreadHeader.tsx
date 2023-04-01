@@ -107,7 +107,7 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
               </tr>
               <tr data-type="Subject">
               <td>File</td>
-              <td> <input type="file" name="file_input" id="file_input" required
+              <td> <input type="file" name="file_input" id="file_input"
                 onChange={(e) => {
                   const file_input = e.target.files?.[0];
                   if (file_input) {
