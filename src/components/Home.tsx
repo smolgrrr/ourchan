@@ -1,15 +1,4 @@
-import { useNostrEvents, dateToUnix } from "nostr-react";
-
 const Home = () => {
-  const { events } = useNostrEvents({
-    filter: {
-      kinds: [1],
-      '#p': [
-        'ca73ee0889b8e9582368d28fd63d51f1d6adeb10b6a961da99ed90194adb571b'
-      ],
-      limit: 6,
-    },
-  });
 
   return (
     <div>

@@ -41,7 +41,7 @@ const General = () => {
       content: message,
       kind: 1,
       tags: [
-        ["p", "ca73ee0889b8e9582368d28fd63d51f1d6adeb10b6a961da99ed90194adb571b"],
+        ["p", "2a65000478d8d7fb6c6902c5b4f33506def7c1c2d4dd6e952b056dd70d8293d4"],
       ],
       created_at: dateToUnix(),
       pubkey: 'null',
