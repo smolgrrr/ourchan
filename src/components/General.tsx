@@ -32,7 +32,7 @@ const General = () => {
       return;
     }
 
-    let message = "ourchan.org subject:- " + subject
+    let message = "ourchan.org \nsubject:- " + subject
       + "\ncomment:- " + comment
       + "\nfile:- " + file
       + "\n";
@@ -47,7 +47,7 @@ const General = () => {
       content: message,
       kind: 1,
       tags: [
-        ["p", "a26b0b194ef54395826b330ac1f355408919a6d4388768c12d552652a98f7f0e"],
+        ["p", "fc79f7f5306b6cfe949ac5bafffafe9bb9c60c2afd6dd5789297d7151e2506e3"],
       ],
       created_at: dateToUnix(),
       pubkey: 'null',

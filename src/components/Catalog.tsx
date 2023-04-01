@@ -7,7 +7,7 @@ const Catalog = () => {
     filter: {
        kinds: [1],
       '#p': [
-        'a26b0b194ef54395826b330ac1f355408919a6d4388768c12d552652a98f7f0e'
+        'fc79f7f5306b6cfe949ac5bafffafe9bb9c60c2afd6dd5789297d7151e2506e3'
         ],
       limit: 75,    
     },
