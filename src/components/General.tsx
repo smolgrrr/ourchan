@@ -26,9 +26,9 @@ const General = () => {
       return;
     }
 
-    let message = "subject: " + subject 
-    + "\ncomment: " + comment 
-    + "\nfile: " + file 
+    let message = "subject:- " + subject 
+    + "\ncomment:- " + comment 
+    + "\nfile:- " + file 
     + "\n";
 
     if (!message) {
@@ -41,7 +41,7 @@ const General = () => {
       content: message,
       kind: 1,
       tags: [
-        ["p", "e1d31f34e0b95e2a078f15cc81d7218bab75b6be794b7976ba6aeb654df88005"],
+        ["p", "ca73ee0889b8e9582368d28fd63d51f1d6adeb10b6a961da99ed90194adb571b"],
       ],
       created_at: dateToUnix(),
       pubkey: 'null',

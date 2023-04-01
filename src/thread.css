@@ -39,3 +39,10 @@
     justify-content: flex-start;
   }
   
+  .postMenuBtn {
+    display: none;
+  }
+  
+  .thread:hover .postMenuBtn {
+    display: inline-block;
+  }

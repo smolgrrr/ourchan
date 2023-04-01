@@ -22,8 +22,8 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    let message = "\ncomment: " + comment 
-    + "\nfile: " + file 
+    let message = "\ncomment:- " + comment 
+    + "\nfile:- " + file 
     + "\n";
 
     if (!message) {
