@@ -47,7 +47,7 @@ const General = () => {
       content: message,
       kind: 1,
       tags: [
-        ["p", "2e8e04b3b46c8ebea7a4622d014a2fde48cc08840ff1ecdfc46f3973b6595b09"],
+        ["p", "a26b0b194ef54395826b330ac1f355408919a6d4388768c12d552652a98f7f0e"],
       ],
       created_at: dateToUnix(),
       pubkey: 'null',
@@ -122,12 +122,6 @@ const General = () => {
             <tr data-type="Comment">
               <td>Comment</td>
               <td><textarea name="com" cols={48} rows={4} wrap="soft" defaultValue={""} onChange={(e) => setComment(e.target.value)} /></td>
-            </tr>
-            <tr data-type="Captcha">
-              <td>Captcha</td>
-              <td>
-                <div className="g-recaptcha" data-sitekey="[YOUR_SITE_KEY]"></div>
-              </td>
             </tr>
             <tr data-type="Subject">
               <td>File</td>
