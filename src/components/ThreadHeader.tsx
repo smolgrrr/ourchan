@@ -8,6 +8,7 @@ import {
   getPublicKey,
   signEvent,
 } from "nostr-tools";
+import NostrImg from '../utils/NostrImg';
 
 interface ThreadHeaderProps {
     id: string;
@@ -53,6 +54,23 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
       publish(newEvent);
   };
 
+  async function attachFile(file_input: File | null) {
+    try {
+      if (file_input) {
+        const rx = await NostrImg(file_input);
+        if (rx.url) {
+          setFile(n => `${n ? `${n}\n` : ""}${rx.url}`);
+        } else if (rx?.error) {
+          setFile(rx.error);
+        }
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setFile(error?.message);
+      }
+    }
+  }
+
   const toggleForm = () => {
     const toggleLink = document.getElementById("togglePostFormLink");
     const postForm = document.getElementById("postForm");
@@ -71,7 +89,7 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
   return (
 <div>
         <div id="boardNavDesktop" className="desktop"><span className="boardList">[ <a href="/g/" title="Anime &amp; Manga">g</a> ] </span></div>
-        <div className="pageJump"> <a href="">▼</a> <a href="javascript:void(0);" id="settingsWindowLinkMobile">Settings</a> <a href="">Mobile</a> <a href="" target="_top">Home</a> </div>
+        <div className="pageJump"> <a href="">▼</a> <a href="javascript:void(0);" id="settingsWindowLinkMobile">Settings</a> <a href="">Mobile</a> <a href="/" target="_top">Home</a> </div>
         <div className="boardBanner">
           <div id="bannerCnt" className="title desktop" data-src="7.png"><img alt="ourChan" src="7.png" /></div>
           <div className="boardTitle">/g/ - General</div>
@@ -88,9 +106,17 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
                 <td><textarea name="com" cols={48} rows={4} wrap="soft" defaultValue={""} onChange={(e) => setComment(e.target.value)}/></td>
               </tr>
               <tr data-type="Subject">
-                <td>File</td>
-                <td><input name="sub" type="text" onChange={(e) => setFile(e.target.value)}/><input type="submit" defaultValue="Post" tabIndex={6}/></td>
+              <td>File</td>
+              <td> <input type="file" name="file_input" id="file_input" required
+                onChange={(e) => {
+                  const file_input = e.target.files?.[0];
+                  if (file_input) {
+                    attachFile(file_input);
+                  }
+                }}>
+              </input></td>
               </tr>
+              <input type="submit" defaultValue="Post" tabIndex={6}/>
             </tbody>
             <tfoot>
               <tr>

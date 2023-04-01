@@ -37,7 +37,7 @@ export function EventRow({ event }: { event: Event }) {
           R: <b>{replyCount}</b> {imageReplyCount > 0 && <span>/ I: <b>{imageReplyCount}</b></span>}
           <a href={`/g/thread/${event.id}`} className="postMenuBtn" title="Thread Menu">▶</a>
         </div>
-        <div className="teaser"><b>{subject}</b> {comment}</div>
+        <div className="teaser">{subject && <b>{subject}:</b> } {comment}</div>
       </div>
     );
   }
