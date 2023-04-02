@@ -1,5 +1,5 @@
-import { parseContent } from "../utils/parseContent";
-import { unixToDate } from "../utils/utils";
+import { parseContent } from "../../utils/parseContent";
+import { unixToDate } from "../../utils/utils";
 
 interface ReplyContainerProps {
     event: Event;

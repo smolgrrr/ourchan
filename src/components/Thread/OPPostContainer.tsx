@@ -1,4 +1,4 @@
-import { unixToDate } from "../utils/utils";
+import { unixToDate } from "../../utils/utils";
 
 interface OPPostContainerProps {
     event: Event;

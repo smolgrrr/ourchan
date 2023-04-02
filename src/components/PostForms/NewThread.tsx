@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNostr, dateToUnix } from "nostr-react";
-import { useMemo, useState, useEffect } from "react";
+import { useState } from "react";
 import {
   type Event as NostrEvent,
   generatePrivateKey,
@@ -8,10 +8,17 @@ import {
   getPublicKey,
   signEvent,
 } from "nostr-tools";
-import Catalog from './Catalog';
-import NostrImg from '../utils/NostrImg';
+import NostrImg from '../../utils/NostrImg';
+import BlotterMsgs from '../Misc/BlotterMsgs';
+import { boards } from "../../constants/Const";
 
-const General = () => {
+interface NewThreadProps {
+    currentboard: number;
+}
+
+const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
+    const board = boards[currentboard];
+
   const { publish } = useNostr();
   const [name, setName] = useState("");
   const [subject, setSubject] = useState("");
@@ -47,7 +54,7 @@ const General = () => {
       content: message,
       kind: 1,
       tags: [
-        ["p", "fc79f7f5306b6cfe949ac5bafffafe9bb9c60c2afd6dd5789297d7151e2506e3"],
+        ["p", board[1]],
       ],
       created_at: dateToUnix(),
       pubkey: 'null',
@@ -97,15 +104,7 @@ const General = () => {
   };
 
   return (
-    <div>
-      <div id="boardNavDesktop" className="desktop"><span className="boardList">[ <a href="/g" title="General">g</a> / <a href="/1337" title="General">leet</a> ] </span></div>
-      <div className="pageJump"> <a href="#bottom">▼</a> <a href="/">Mobile</a> <a href="/" target="_top">Home</a> </div>
-      <div className="boardBanner">
-        <div id="bannerCnt" className="title desktop" data-src="7.png"><img alt="ourChan" src="7.png" /></div>
-        <div className="boardTitle">/g/ - General</div>
-      </div>
-      <hr className="abovePostForm" />
-      <div style={{ position: 'relative' }} />
+      <>
       <form name="post" method="post" encType="multipart/form-data" onSubmit={handleSubmit}><input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
         <div id="togglePostFormLink" className="desktop">[<a onClick={toggleForm}>Start a New Thread</a>]
         </div>
@@ -143,38 +142,11 @@ const General = () => {
             </tr>
           </tfoot>
         </table>
-        <table id="blotter" className="desktop">
-          <thead>
-            <tr>
-              <td colSpan={2}>
-                <hr className="aboveMidAd" />
-              </td>
-            </tr>
-          </thead>
-          <tbody id="blotter-msgs">
-            <tr>
-              <td data-utc={1598018313} className="blotter-date">03/31/23</td>
-              <td className="blotter-content">First board added: <a target="_blank" title="General" href="/g">/g/</a></td>
-            </tr>
-            <tr>
-              <td data-utc={1598018313} className="blotter-date">04/2/23</td>
-              <td className="blotter-content">New board: <a target="_blank" title="General" href="/g">/1337/</a></td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={2}>[<a data-utc={1598018313} id="toggleBlotter" href="">Hide</a>]<span> [<a href="" target="_blank">Show All</a>]</span></td>
-            </tr>
-          </tfoot>
-        </table>
+      <BlotterMsgs />
       </form>
-      <div id="ctrl-top" className="desktop">
-        <hr /><input type="text" id="search-box" placeholder="Search OPs…" /> [<a href="/g">Catalog</a>]
-      </div>
-      <Catalog />
-    </div>
+    </>
   );
 
 };
 
-export default General;
+export default NewThread;

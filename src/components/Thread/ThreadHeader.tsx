@@ -8,7 +8,9 @@ import {
   getPublicKey,
   signEvent,
 } from "nostr-tools";
-import NostrImg from '../utils/NostrImg';
+import NostrImg from '../../utils/NostrImg';
+import BoardBanner from '../Misc/BoardBanner';
+import BlotterMsgs from '../Misc/BlotterMsgs';
 
 interface ThreadHeaderProps {
     id: string;
@@ -95,12 +97,7 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
 
   return (
 <div>
-        <div id="boardNavDesktop" className="desktop"><span className="boardList">[ <a href="/g/" title="Anime &amp; Manga">g</a>  / <a href="/1337" title="General">leet</a> ] </span></div>
-        <div className="pageJump"> <a href="">▼</a> <a href="javascript:void(0);" id="settingsWindowLinkMobile">Settings</a> <a href="">Mobile</a> <a href="/" target="_top">Home</a> </div>
-        <div className="boardBanner">
-          <div id="bannerCnt" className="title desktop" data-src="7.png"><img alt="ourChan" src="7.png" /></div>
-        </div>
-        <hr className="abovePostForm" />
+        <BoardBanner currentboard={null}/>
         <div style={{position: 'relative'}} />
         <form name="post" method="post" encType="multipart/form-data" onSubmit={handleSubmit}><input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
           <div id="togglePostFormLink" className="desktop">[<a onClick={toggleForm}>Post a reply</a>]
@@ -132,30 +129,7 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
               </tr>
             </tfoot>
           </table>
-          <table id="blotter" className="desktop">
-            <thead>
-              <tr>
-                <td colSpan={2}>
-                  <hr className="aboveMidAd" />
-                </td>
-              </tr>
-            </thead>
-            <tbody id="blotter-msgs">
-              <tr>
-                <td data-utc={1598018313} className="blotter-date">03/31/23</td>
-                <td className="blotter-content">First board added: <a target="_blank" title="Video Games/RPG" href="/g/">/g/</a></td>
-              </tr>
-              <tr>
-              <td data-utc={1598018313} className="blotter-date">04/2/23</td>
-              <td className="blotter-content">New board: <a target="_blank" title="General" href="/1337">/1337/</a></td>
-            </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan={2}>[<a data-utc={1598018313} id="toggleBlotter" href="">Hide</a>]<span> [<a href="" target="_blank">Show All</a>]</span></td>
-              </tr>
-            </tfoot>
-          </table>
+          <BlotterMsgs />
         </form>
     </div>
       );
