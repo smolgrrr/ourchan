@@ -95,11 +95,10 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
 
   return (
 <div>
-        <div id="boardNavDesktop" className="desktop"><span className="boardList">[ <a href="/g/" title="Anime &amp; Manga">g</a> ] </span></div>
+        <div id="boardNavDesktop" className="desktop"><span className="boardList">[ <a href="/g/" title="Anime &amp; Manga">g</a>  / <a href="/1337" title="General">leet</a> ] </span></div>
         <div className="pageJump"> <a href="">▼</a> <a href="javascript:void(0);" id="settingsWindowLinkMobile">Settings</a> <a href="">Mobile</a> <a href="/" target="_top">Home</a> </div>
         <div className="boardBanner">
           <div id="bannerCnt" className="title desktop" data-src="7.png"><img alt="ourChan" src="7.png" /></div>
-          <div className="boardTitle">/g/ - General</div>
         </div>
         <hr className="abovePostForm" />
         <div style={{position: 'relative'}} />
@@ -146,6 +145,10 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
                 <td data-utc={1598018313} className="blotter-date">03/31/23</td>
                 <td className="blotter-content">First board added: <a target="_blank" title="Video Games/RPG" href="/g/">/g/</a></td>
               </tr>
+              <tr>
+              <td data-utc={1598018313} className="blotter-date">04/2/23</td>
+              <td className="blotter-content">New board: <a target="_blank" title="General" href="/g">/1337/</a></td>
+            </tr>
             </tbody>
             <tfoot>
               <tr>

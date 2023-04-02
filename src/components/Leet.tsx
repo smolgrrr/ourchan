@@ -8,7 +8,7 @@ import {
   getPublicKey,
   signEvent,
 } from "nostr-tools";
-import Catalog from './Catalog';
+import Catalog from './LeetCatalog';
 import NostrImg from '../utils/NostrImg';
 
 const General = () => {
@@ -47,7 +47,7 @@ const General = () => {
       content: message,
       kind: 1,
       tags: [
-        ["p", "fc79f7f5306b6cfe949ac5bafffafe9bb9c60c2afd6dd5789297d7151e2506e3"],
+        ["p", "0d90c8723f3332ed834da1b26a72c84d18bd5de26aa5ae1424e2875d528c6b37"],
       ],
       created_at: dateToUnix(),
       pubkey: 'null',
@@ -98,11 +98,11 @@ const General = () => {
 
   return (
     <div>
-      <div id="boardNavDesktop" className="desktop"><span className="boardList">[ <a href="/g" title="General">g</a> / <a href="/1337" title="General">leet</a> ] </span></div>
+      <div id="boardNavDesktop" className="desktop"><span className="boardList">[ <a href="/g/" title="Anime &amp; Manga">g</a> / <a href="/1337" title="General">leet</a> ] </span></div>
       <div className="pageJump"> <a href="#bottom">▼</a> <a href="/">Mobile</a> <a href="/" target="_top">Home</a> </div>
       <div className="boardBanner">
         <div id="bannerCnt" className="title desktop" data-src="7.png"><img alt="ourChan" src="7.png" /></div>
-        <div className="boardTitle">/g/ - General</div>
+        <div className="boardTitle">/1337/ - 1337 H4X0R</div>
       </div>
       <hr className="abovePostForm" />
       <div style={{ position: 'relative' }} />
