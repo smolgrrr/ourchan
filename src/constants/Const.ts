@@ -19,3 +19,9 @@ export const BlotterMsgsText = [
   ["03/31/23", "First board added: ", "/g"],
   ["04/2/23", "New board: ", "/1337"],
 ];
+
+// Pinned posts
+export const pinnedPosts = [
+  ["g", "da202d93b1ce847d5d87e80a089104e7fd3a56fbe3f25206c67cd063c8aaa4d9"]
+];
+

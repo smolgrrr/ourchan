@@ -46,3 +46,16 @@
 .thread:hover .postMenuBtn {
     display: inline-block;
 }
+
+.threadIcons {
+    display: inline;
+    height: 16px;
+    margin: 2px 0 0 -101px;
+    position: absolute;
+    width: 100px;
+    text-align: right;
+}
+
+.stickyIcon {
+    background-size: 100%;
+}

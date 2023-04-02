@@ -16,17 +16,15 @@ OurChan should keep the important properties and structures used on 4chan <br/>
 
 ### Boards
 Make your own board under <br/>
-boards from "../../constants/Const";<br/><br/>
-
-Create a pull request with the boards pubkey to get yours added<br/> 
+boards from "../../constants/Const";<br/>
+Create a pull request with the board's pubkey to get yours added<br/> 
 /g/ - fc79f7f5306b6cfe949ac5bafffafe9bb9c60c2afd6dd5789297d7151e2506e3<br/>
 /1337/ - 0d90c8723f3332ed834da1b26a72c84d18bd5de26aa5ae1424e2875d528c6b37<br/>
 
 ### Relays
 Use your own relay or different relays under <br/>
-relayUrls from "../../constants/Const";<br/><br/>
-
-if you have implemented a PoW, captcha or pay-per-post relay, please current a pull request and i will add it to this instance<br/> 
+relayUrls from "../../constants/Const";<br/>
+if you have implemented a PoW, captcha or pay-per-post relay, please create a pull request and i will add it to this instance<br/> 
 
 <br/><br/>
 ## Run locally
