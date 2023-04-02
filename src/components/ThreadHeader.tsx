@@ -147,7 +147,7 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
               </tr>
               <tr>
               <td data-utc={1598018313} className="blotter-date">04/2/23</td>
-              <td className="blotter-content">New board: <a target="_blank" title="General" href="/g">/1337/</a></td>
+              <td className="blotter-content">New board: <a target="_blank" title="General" href="/1337">/1337/</a></td>
             </tr>
             </tbody>
             <tfoot>

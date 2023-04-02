@@ -158,7 +158,7 @@ const General = () => {
             </tr>
             <tr>
               <td data-utc={1598018313} className="blotter-date">04/2/23</td>
-              <td className="blotter-content">New board: <a target="_blank" title="General" href="/g">/1337/</a></td>
+              <td className="blotter-content">New board: <a target="_blank" title="General" href="/1337">/1337/</a></td>
             </tr>
           </tbody>
           <tfoot>
@@ -169,7 +169,7 @@ const General = () => {
         </table>
       </form>
       <div id="ctrl-top" className="desktop">
-        <hr /><input type="text" id="search-box" placeholder="Search OPs…" /> [<a href="/g">Catalog</a>]
+        <hr /><input type="text" id="search-box" placeholder="Search OPs…" /> [<a href="/1337">Catalog</a>]
       </div>
       <Catalog />
     </div>
