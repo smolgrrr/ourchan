@@ -14,6 +14,11 @@ OurChan should keep the important properties and structures used on 4chan <br/>
 -Contextual thread view <br/>
 -Boards to segregate topics of discussion
 
+### Boards
+Create a pull request with the boards pubkey to get yours added<br/> 
+/g/ - fc79f7f5306b6cfe949ac5bafffafe9bb9c60c2afd6dd5789297d7151e2506e3<br/>
+/1337/ - 0d90c8723f3332ed834da1b26a72c84d18bd5de26aa5ae1424e2875d528c6b37<br/>
+
 <br/><br/>
 ## Run locally
 
