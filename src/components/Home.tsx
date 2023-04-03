@@ -1,3 +1,4 @@
+import { boards } from "../constants/Const";
 const Home = () => {
 
   return (
@@ -52,6 +53,9 @@ const Home = () => {
                   <h3 style={{ textDecoration: 'underline', display: 'inline' }}>Interests</h3>
                   <ul>
                     <li><a href="/1337" className="boardlink">leet</a></li>
+                  </ul>
+                  <ul>
+                    <li><a href="/sneed" className="boardlink">sneed</a></li>
                   </ul>
                 </div>
                 <br className="clear-bug" />
