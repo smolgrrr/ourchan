@@ -3,29 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/google-fonts": "^1.0.0",
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "@types/react-google-recaptcha": "^2.1.5",
-    "@types/react-modal": "^3.13.1",
-    "google-fonts": "^1.0.0",
     "nostr-react": "^0.6.4",
     "nostr-tools": "^1.7.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-google-recaptcha": "^2.1.0",
-    "react-modal": "^3.16.1",
-    "react-new-window": "^1.0.1",
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
-    "typescript": "^4.4.2",
-    "video.js": "^7.20.3",
-    "webtorrent": "1.8.26"
+    "typescript": "^4.4.2"
   },
   "devDependencies": {
-    "@types/video.js": "^7.3.49",
-    "@types/webtorrent": "^0.109.3",
     "customize-cra": "^1.0.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "react-app-rewired": "^2.2.1"

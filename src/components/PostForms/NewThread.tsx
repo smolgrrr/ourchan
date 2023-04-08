@@ -1,24 +1,17 @@
 import React from 'react';
 import { useNostr, dateToUnix } from "nostr-react";
 import { useState } from "react";
-import {
-  type Event as NostrEvent,
-  generatePrivateKey,
-  getEventHash,
-  getPublicKey,
-  signEvent,
-} from "nostr-tools";
 import NostrImg from '../../utils/NostrImg';
 import BlotterMsgs from '../Misc/BlotterMsgs';
 import { boards } from "../../constants/Const";
+import { handleThreadSubmit } from '../../utils/postEvent';
 
 interface NewThreadProps {
     currentboard: number;
 }
 
 const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
-    const board = boards[currentboard];
-
+  const board = boards[currentboard];
   const { publish } = useNostr();
   const [name, setName] = useState("");
   const [subject, setSubject] = useState("");
@@ -26,49 +19,20 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
   const [file, setFile] = useState("");
   const [hasSubmittedPost, setHasSubmittedPost] = useState(false);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
     event.preventDefault();
-
-    if (!file) {
-      // Handle case when no file is attached
+    if (file != "") {
+    handleThreadSubmit(board, subject, comment, file, hasSubmittedPost)
+    .then(newEvent => {
+      if (newEvent) {
+        publish(newEvent);
+        setHasSubmittedPost(true);
+      }
+    }) } else {
+      alert("Wait: media is still being uploaded");
       return;
     }
-
-    if (hasSubmittedPost) {
-      alert('You have already submitted a post.');
-      return;
-    }
-
-    let message = "ourchan.org \nsubject:- " + subject
-      + "\ncomment:- " + comment
-      + "\nfile:- " + file
-      + "\n";
-
-    if (!message) {
-      alert("no message provided");
-      return;
-    }
-
-    const newEvent: NostrEvent = {
-      id: 'null',
-      content: message,
-      kind: 1,
-      tags: [
-        ["p", board[1]],
-      ],
-      created_at: dateToUnix(),
-      pubkey: 'null',
-      sig: 'null',
-    };
-
-    let sk = generatePrivateKey();
-
-    newEvent.pubkey = getPublicKey(sk);
-    newEvent.id = getEventHash(newEvent);
-    newEvent.sig = signEvent(newEvent, sk);
-
-    publish(newEvent);
-    setHasSubmittedPost(true);
   };
 
   async function attachFile(file_input: File | null) {
@@ -76,7 +40,7 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
       if (file_input) {
         const rx = await NostrImg(file_input);
         if (rx.url) {
-          setFile(n => `${n ? `${n}\n` : ""}${rx.url}`);
+          setFile(rx.url);
         } else if (rx?.error) {
           setFile(rx.error);
         }

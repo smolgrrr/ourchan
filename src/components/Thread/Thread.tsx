@@ -6,15 +6,8 @@ import OPPostContainer from "./OPPostContainer";
 import ReplyContainer from "./ReplyContainer";
 import ThreadFooter from "./ThreadFooter";
 import React, { useState } from "react";
-import NewWindow from 'react-new-window'
 import Popout from "../PostForms/ReplyPopout";
-
-interface Event {
-    id: string;
-    content: string;
-    created_at: number;
-    pubkey: string;
-  }
+import { Event } from "../../types/types";
 
 const Thread = () => {
     const { id } = useParams();
@@ -48,8 +41,6 @@ const Thread = () => {
         return <ThreadHeader id={'null'} reply_pk={'null'} />;
     }
 
-    const { subject, comment, file } = parseContent(OP_event.content);
-
     return (
         <div>
             <ThreadHeader id={OP_event.id} reply_pk={OP_event.pubkey} />
@@ -63,13 +54,13 @@ const Thread = () => {
             <form name="delform" id="delform" method="post">
                 <div className="board">
                     <div className="thread" style={{width: '100%'}}>
-                        <OPPostContainer event={OP_event} file={file} subject={subject} comment={comment} />
+                        <OPPostContainer event={OP_event} />
                         {ByReplies.sort((a, b) => a.created_at - b.created_at).map((event) => <ReplyContainer visible={visible} openPopout={() => openPopout(event)} event={event} key={event.id}/>)}
-                        <Popout OP_event={OP_event} tags={tags} visible={visible} closePopout={closePopout}/>
                     </div>
                 </div>
                 <ThreadFooter />
             </form>
+            <Popout OP_event={OP_event} tags={tags} visible={visible} closePopout={closePopout}/>
         </div>
 
     );

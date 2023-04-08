@@ -1,6 +1,7 @@
 import { parseContent } from "../../utils/parseContent";
 import { unixToDate } from "../../utils/utils";
 import React, { useState } from "react";
+import { Event } from "../../types/types";
 
 interface ReplyContainerProps {
   event: Event;
@@ -8,15 +9,9 @@ interface ReplyContainerProps {
   openPopout: () => void;
 }
 
-interface Event {
-  id: string;
-  content: string;
-  created_at: number;
-  pubkey: string;
-}
 
 const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
-  const { file, comment } = parseContent(event.content);
+  const { file, comment } = parseContent(event);
   const postDate = unixToDate(event.created_at);
 
   return (

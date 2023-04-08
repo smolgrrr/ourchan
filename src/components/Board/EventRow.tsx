@@ -2,13 +2,7 @@ import { useNostrEvents, dateToUnix } from "nostr-react";
 import { parseContent } from "../../utils/parseContent";
 import { useState, useEffect } from "react";
 import "./thread.css"
-
-interface Event {
-    id: string;
-    content: string;
-    created_at: number;
-    pubkey: string;
-  }
+import { Event } from "../../types/types";
 
   export function useReplyCounts(event: Event) {
     const { events } = useNostrEvents({
@@ -24,7 +18,7 @@ interface Event {
     useEffect(() => {
       setReplyCount(events.length)
       const filteredEvents = events.filter(
-        (event) => parseContent(event.content).file !== ''
+        (event) => parseContent(event).file !== ''
       );
       setImageReplyCount(filteredEvents.length);
     }, [events]);
@@ -34,7 +28,7 @@ interface Event {
 
 export function EventRow({ event }: { event: Event }) {
   const { replyCount, imageReplyCount } = useReplyCounts(event);
-  const { subject, comment, file } = parseContent(event.content);
+  const { subject, comment, file } = parseContent(event);
   
     return (
       <div className="thread">

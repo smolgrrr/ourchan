@@ -1,37 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useNostr, dateToUnix } from "nostr-react";
+import NostrImg from '../../utils/NostrImg';
+import { handleReplySubmit } from "../../utils/postEvent";
+import { useNostr } from "nostr-react";
 import {
   type Event as NostrEvent,
-  generatePrivateKey,
-  getEventHash,
-  getPublicKey,
-  signEvent,
 } from "nostr-tools";
-import NostrImg from '../../utils/NostrImg';
 
 type PopoutProps = {
-  OP_event: Event,
+  OP_event: NostrEvent,
   tags: string[];
   visible: boolean;
   closePopout: () => void;
 };
-
-interface Event {
-  id: string;
-  content: string;
-  created_at: number;
-  pubkey: string;
-}
-
-function parseForTag(str: string): string[] {
-  const data: string[] = [];
-  const regex = />>\w+/g;
-  let match;
-  while ((match = regex.exec(str))) {
-    data.push(match[0].slice(2));
-  }
-  return data;
-}
 
 const Popout: React.FC<PopoutProps> = ({
   OP_event,
@@ -44,54 +24,24 @@ const Popout: React.FC<PopoutProps> = ({
     y: window.innerHeight / 2
   });
   const [isDragging, setIsDragging] = useState(false);
-  const [comment, setComment] = useState('');
-  const { publish } = useNostr();
+  const [comment, setComment] = useState("");
   const [file, setFile] = useState("");
   const [hasSubmittedPost, setHasSubmittedPost] = useState(false);
+  const { publish } = useNostr();
 
   useEffect(() => {
     setComment([`>>${tags}\n`].join(''));
   }, [tags]);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    let message = "ourchan.org \ncomment:- " + comment
-      + "\nfile:- " + file
-      + "\n";
-
-    if (!message) {
-      alert("no message provided");
-      return;
-    }
-
-    if (hasSubmittedPost) {
-      alert('You have already submitted a post.');
-      return;
-    }
-
-    const newEvent: NostrEvent = {
-      id: 'null',
-      content: message,
-      kind: 1,
-      tags: [
-        ["e", OP_event.id, "root"],
-        ...tags.map(tag => ["e", tag, "reply"]),
-        ["p", OP_event.pubkey]
-      ],
-      created_at: dateToUnix(),
-      pubkey: 'null',
-      sig: 'null',
-    };
-
-    let sk = generatePrivateKey();
-
-    newEvent.pubkey = getPublicKey(sk);
-    newEvent.id = getEventHash(newEvent);
-    newEvent.sig = signEvent(newEvent, sk);
-
-    publish(newEvent);
-    setHasSubmittedPost(true);
+    handleReplySubmit(OP_event.id, OP_event.pubkey, comment, file, hasSubmittedPost)
+    .then(newEvent => {
+      if (newEvent) {
+        publish(newEvent);
+        setHasSubmittedPost(true);
+      }
+    })
   };
 
   async function attachFile(file_input: File | null) {
@@ -99,7 +49,7 @@ const Popout: React.FC<PopoutProps> = ({
       if (file_input) {
         const rx = await NostrImg(file_input);
         if (rx.url) {
-          setFile(n => `${n ? `${n}\n` : ""}${rx.url}`);
+          setFile(rx.url);
         } else if (rx?.error) {
           setFile(rx.error);
         }
@@ -137,7 +87,7 @@ const Popout: React.FC<PopoutProps> = ({
           }}>Reply to Thread No.<span id="qrTid">422237188</span><a onClick={closePopout}> X</a></div>
           <input type="hidden" defaultValue={4194304} name="MAX_FILE_SIZE" /><input type="hidden" defaultValue="regist" name="mode" /><input id="qrResto" type="hidden" defaultValue={422237188} name="resto" />
           <div id="qrForm">
-            <form name="post" method="post" encType="multipart/form-data" onSubmit={handleSubmit}><input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
+            <form encType="multipart/form-data" onSubmit={handleSubmit}><input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
             <input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
             <div><input name="name" type="text" tabIndex={0} placeholder="Name" /></div>
             <div><input name="email" type="text" tabIndex={0} id="qrEmail" placeholder="Options" /></div>
@@ -158,7 +108,7 @@ const Popout: React.FC<PopoutProps> = ({
               if (file_input) {
                 attachFile(file_input);
               }
-            }} /><input type="submit" defaultValue="Post" tabIndex={6}/></div>
+            }} /><input type="submit" tabIndex={6}/></div>
             </form>
           </div>
           <div id="qrError" />

@@ -1,21 +1,14 @@
 import { unixToDate } from "../../utils/utils";
+import { Event } from "../../types/types";
+import { parseContent } from "../../utils/parseContent";
 
 interface OPPostContainerProps {
     event: Event;
-    file: string;
-    subject: string;
-    comment: string;
 }
 
-interface Event {
-    id: string;
-    content: string;
-    created_at: number;
-    pubkey: string;
-  }
-
-
-const OPPostContainer = ({ event, file, subject, comment }: OPPostContainerProps) => {
+const OPPostContainer = ({ event}: OPPostContainerProps) => {
+    const { subject, comment, file } = parseContent(event);
+    
     return (
         <div className="postContainer opContainer">
             <div id="p421762085" className="post op">

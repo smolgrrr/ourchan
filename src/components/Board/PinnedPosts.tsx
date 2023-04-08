@@ -2,39 +2,35 @@ import { useNostrEvents, dateToUnix } from "nostr-react";
 import { parseContent } from "../../utils/parseContent";
 import { useState, useEffect } from "react";
 import "./thread.css"
+import { Event } from "../../types/types";
 
-interface Event {
-    id: string;
-    content: string;
-    created_at: number;
-    pubkey: string;
-  }
 
-  export function useReplyCounts(event: Event) {
-    const { events } = useNostrEvents({
-      filter: {
-        kinds: [1],
-        '#e': [event.id],
-        limit: 75,    
-      },
-    });
-    const [replyCount, setReplyCount] = useState(events.length);
-    const [imageReplyCount, setImageReplyCount] = useState(0);
+  // export function useReplyCounts(event: Event) {
+  //   const { events } = useNostrEvents({
+  //     filter: {
+  //       kinds: [1],
+  //       '#e': [event.id],
+  //       limit: 75,    
+  //     },
+  //   });
+  //   const [replyCount, setReplyCount] = useState(events.length);
+  //   const [imageReplyCount, setImageReplyCount] = useState(0);
   
-    useEffect(() => {
-      setReplyCount(events.length)
-      const filteredEvents = events.filter(
-        (event) => parseContent(event.content).file !== ''
-      );
-      setImageReplyCount(filteredEvents.length);
-    }, [events]);
+  //   useEffect(() => {
+  //     setReplyCount(events.length)
+  //     const filteredEvents = events.filter(
+  //       (event) => parseContent(event.content).file !== ''
+  //     );
+  //     setImageReplyCount(filteredEvents.length);
+  //   }, [events]);
   
-    return { replyCount, imageReplyCount };
-  }
+  //   return { replyCount, imageReplyCount };
+  // }
 
 export function PinnedPosts({ event }: { event: Event }) {
-  const { replyCount, imageReplyCount } = useReplyCounts(event);
-  const { subject, comment, file } = parseContent(event.content);
+  const [replyCount, setReplyCount] = useState(0);
+  const [imageReplyCount, setImageReplyCount] = useState(0);
+  const { subject, comment, file } = parseContent(event);
   
     return (
       <div className="thread">
