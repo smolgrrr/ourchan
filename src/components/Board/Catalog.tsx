@@ -1,4 +1,4 @@
-import { useNostrEvents, dateToUnix } from "nostr-react";
+import { useNostrEvents } from "nostr-react";
 import { EventRow } from './EventRow';
 import { boards } from "../../constants/Const";
 import "./thread.css"

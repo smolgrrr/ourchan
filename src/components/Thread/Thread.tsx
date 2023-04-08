@@ -1,11 +1,10 @@
-import { useNostrEvents, useProfile } from "nostr-react";
+import { useNostrEvents } from "nostr-react";
 import { useParams } from 'react-router-dom';
-import { parseContent } from '../../utils/parseContent';
 import ThreadHeader from "./ThreadHeader";
 import OPPostContainer from "./OPPostContainer";
 import ReplyContainer from "./ReplyContainer";
 import ThreadFooter from "./ThreadFooter";
-import React, { useState } from "react";
+import { useState } from "react";
 import Popout from "../PostForms/ReplyPopout";
 import { Event } from "../../types/types";
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMemo, useState, useEffect } from "react";
+import { useState } from "react";
 import NostrImg from '../../utils/NostrImg';
 import BoardBanner from '../Misc/BoardBanner';
 import BlotterMsgs from '../Misc/BlotterMsgs';

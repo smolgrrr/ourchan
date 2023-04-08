@@ -1,4 +1,3 @@
-import { boards } from "../constants/Const";
 const Home = () => {
 
   return (

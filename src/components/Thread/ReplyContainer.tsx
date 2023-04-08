@@ -1,6 +1,5 @@
 import { parseContent } from "../../utils/parseContent";
 import { unixToDate } from "../../utils/utils";
-import React, { useState } from "react";
 import { Event } from "../../types/types";
 
 interface ReplyContainerProps {
@@ -62,15 +61,15 @@ const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
               ▶
             </a>
           </div>
-          {file != "" && (
+          {file !== "" && (
             <div className="file">
               <div className="fileText">
                 File:{" "}
-                <a href={file} target="_blank">
+                <a href={file}>
                   {file && file.substring(file.length - 21)}
                 </a>
               </div>
-              <a className="fileThumb" href={file} target="_blank">
+              <a className="fileThumb" href={file}>
                 <img
                   src={file}
                   style={{ maxHeight: "95px", maxWidth: "125px" }}

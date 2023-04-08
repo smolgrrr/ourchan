@@ -1,6 +1,5 @@
-import { useNostrEvents, dateToUnix } from "nostr-react";
 import { parseContent } from "../../utils/parseContent";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./thread.css"
 import { Event } from "../../types/types";
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNostr, dateToUnix } from "nostr-react";
+import { useNostr } from "nostr-react";
 import { useState } from "react";
 import NostrImg from '../../utils/NostrImg';
 import BlotterMsgs from '../Misc/BlotterMsgs';
@@ -22,7 +22,7 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 
     event.preventDefault();
-    if (file != "") {
+    if (file !== "") {
     handleThreadSubmit(board, subject, comment, file, hasSubmittedPost)
     .then(newEvent => {
       if (newEvent) {

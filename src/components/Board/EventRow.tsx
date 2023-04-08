@@ -1,4 +1,4 @@
-import { useNostrEvents, dateToUnix } from "nostr-react";
+import { useNostrEvents } from "nostr-react";
 import { parseContent } from "../../utils/parseContent";
 import { useState, useEffect } from "react";
 import "./thread.css"
@@ -32,7 +32,7 @@ export function EventRow({ event }: { event: Event }) {
   
     return (
       <div className="thread">
-        <a href={`/thread/${event.id}`}><img loading="lazy" className="thumb" style={{ maxWidth: "150px", maxHeight: "150px" }} src={file} /></a>
+        <a href={`/thread/${event.id}`}><img alt="Invalid thread" loading="lazy" className="thumb" style={{ maxWidth: "150px", maxHeight: "150px" }} src={file} /></a>
         <div title="(R)eplies / (I)mage Replies" id="meta" className="meta">
           R: <b>{replyCount}</b> {imageReplyCount > 0 && <span>/ I: <b>{imageReplyCount}</b></span>}
           <a href={`/thread/${event.id}`} className="postMenuBtn" title="Thread Menu">▶</a>

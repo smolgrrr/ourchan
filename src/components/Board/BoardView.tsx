@@ -8,15 +8,6 @@ const BoardView = () => {
   const { boardParam } = useParams();
   const boardIndex = boards.findIndex(board => board[0] === boardParam);
 
-  if (boardIndex !== -1) {
-    // If boardParam exists in the boards array
-    const board = boards[boardIndex];
-    // Do something with the board subarray or index
-  } else {
-    // If boardParam does not exist in the boards array
-    // Handle the error or return a default value
-  }
-
   return (
     <div>
       <BoardBanner currentboard={boardIndex}/>
