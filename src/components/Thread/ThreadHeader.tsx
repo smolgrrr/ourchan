@@ -136,4 +136,4 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
  
 };
 
-      export default ThreadHeader;
+export default ThreadHeader;
