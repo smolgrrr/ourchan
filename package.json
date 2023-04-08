@@ -2,6 +2,7 @@
   "name": "ourchan",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
