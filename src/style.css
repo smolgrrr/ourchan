@@ -1342,7 +1342,8 @@ div.backlink {
     font-size: x-small !important;
     padding-left: 10px;
     padding-bottom: 5px;
-    padding-right: 10px
+    padding-right: 10px;
+    display: inline;
 }
 
 .backlink span {

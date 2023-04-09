@@ -35,7 +35,9 @@ const Popout: React.FC<PopoutProps> = ({
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleReplySubmit(OP_event.id, OP_event.pubkey, comment, file, hasSubmittedPost)
+    const updatedTags = [OP_event.id, ...tags];
+
+    handleReplySubmit(updatedTags, OP_event.pubkey, comment, file, hasSubmittedPost)
     .then(newEvent => {
       if (newEvent) {
         publish(newEvent);

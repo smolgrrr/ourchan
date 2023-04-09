@@ -1,6 +1,11 @@
 import { parseContent } from "../../utils/parseContent";
 import { unixToDate } from "../../utils/utils";
 import { Event } from "../../types/types";
+import { useNostrEvents } from "nostr-react";
+import QuotePreview from "./QuotePreview";
+import { useState } from "react";
+import Backlinks from "./Backlinks";
+import BlockQuote from "./BlockQuote";
 
 interface ReplyContainerProps {
   event: Event;
@@ -8,14 +13,18 @@ interface ReplyContainerProps {
   openPopout: () => void;
 }
 
-
 const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
   const { file, comment } = parseContent(event);
   const postDate = unixToDate(event.created_at);
+  const [clicked, setClicked] = useState(false);
+
+  const toggleClick = () => {
+    setClicked(!clicked);
+  };
 
   return (
     <>
-      <div className="postContainer replyContainer">
+      <div id={event.id} className="postContainer replyContainer">
         <div className="sideArrows">&gt;&gt;</div>
         <div className="post reply">
           <div className="postInfoM mobile">
@@ -24,14 +33,14 @@ const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
             </span>
             <span className="dateTime postNum">
               {postDate}
-              <a href="#p421762185" title="Link to this post">
-                No.
+              <a title="Link to this post">
+                Post:
               </a>
               <a
                 href=""
                 title="Reply to this post"
               >
-                {event.id.substring(event.id.length - 10)}
+                ..{event.id.substring(event.id.length - 10)}
               </a>
             </span>
           </div>
@@ -44,11 +53,11 @@ const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
               {postDate}
             </span>{" "}
             <span className="postNum desktop">
-              <a href="#p421762185" title="Link to this post">
-                No.
+              <a title="Link to this post">
+                Post:
               </a>
               <a onClick={openPopout} title="Reply to this post">
-                {event.id.substring(event.id.length - 10)}
+                ..{event.id.substring(event.id.length - 10)}
               </a>
             </span>
             <a
@@ -60,6 +69,7 @@ const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
             >
               ▶
             </a>
+            <Backlinks event={event}/>
           </div>
           {file !== "" && (
             <div className="file">
@@ -69,18 +79,17 @@ const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
                   {file && file.substring(file.length - 21)}
                 </a>
               </div>
-              <a className="fileThumb" href={file}>
+              <a className="fileThumb">
                 <img
                   src={file}
-                  style={{ maxHeight: "95px", maxWidth: "125px" }}
+                  style={{ maxHeight: clicked ? "none" : "95px", maxWidth: clicked ? "none" : "125px" }}
                   loading="lazy"
-                />
+                  onClick={toggleClick}
+                /> 
               </a>
             </div>
           )}
-          <blockquote className="postMessage">
-            <span className="">{comment}</span>
-          </blockquote>
+              <BlockQuote content={comment} />
         </div>
       </div>
     </>

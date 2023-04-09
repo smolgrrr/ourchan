@@ -42,7 +42,7 @@ export const handleThreadSubmit = async (board: string[], subject: string, comme
   return newEvent
 };
 
-export const handleReplySubmit = async (id: string, reply_pk: string, comment: string, file: string, hasSubmittedPost: boolean) => {
+export const handleReplySubmit = async (ids: string[], reply_pk: string, comment: string, file: string, hasSubmittedPost: boolean) => {
     let message = comment + " " + file;
   
     if (!message) {
@@ -55,14 +55,17 @@ export const handleReplySubmit = async (id: string, reply_pk: string, comment: s
       return;
     }
   
+    const tags = [["e", ids[0], "root"]];
+    for (let i = 1; i < ids.length; i++) {
+        tags.push(["e", ids[i]]);
+    }
+    tags.push(["p", reply_pk]);
+
     const newEvent: NostrEvent = {
       id: 'null',
       content: message,
       kind: 1,
-      tags: [
-        ["e", id],
-        ["p", reply_pk],
-      ],
+      tags,
       created_at: dateToUnix(),
       pubkey: 'null',
       sig: 'null',

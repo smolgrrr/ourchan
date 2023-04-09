@@ -19,7 +19,7 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleReplySubmit(id, reply_pk, comment, file, hasSubmittedPost)
+    handleReplySubmit([id], reply_pk, comment, file, hasSubmittedPost)
     .then(newEvent => {
       if (newEvent) {
         publish(newEvent);
