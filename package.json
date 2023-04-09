@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@nostr-dev-kit/ndk": "^0.0.27",
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "bolt11": "^1.4.1",
     "nostr-react": "^0.6.4",
     "nostr-tools": "^1.7.4",
     "react": "^18.2.0",

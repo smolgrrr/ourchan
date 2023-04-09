@@ -21,14 +21,25 @@ function extractMediaUrl(content: string){
     }
   }
 
+  function extractZapAddress(tags: string[][]){
+    const subjectTag = tags.find(tag => tag[0] === "zapAddress");
+    if (subjectTag && subjectTag[1] !== '') {
+      return subjectTag[1];
+    } else {
+      return null;
+    }
+  }
+
   export function parseContent(event: Event) {
     const subject = extractSubject(event.tags);
+    const zapAddress = extractZapAddress(event.tags);
     const file = extractMediaUrl(event.content);
     const contentWithoutFile = event.content.replace(file, '');
 
     return {
-      subject: subject,
+      subject,
       comment: contentWithoutFile.trim(),
+      zapAddress,
       file
     };
   }

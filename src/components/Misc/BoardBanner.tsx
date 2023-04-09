@@ -13,9 +13,9 @@ const BoardBanner: React.FC<BoardBannerProps> = ({ currentboard }) => {
             <div id="boardNavDesktop" className="desktop">
                 <span className="boardList">
                     [{boards.map(board => (
-                        <a key={board[0]} href={`/${board[0]}`} title={board[0]}>
+                        <><a key={board[0]} href={`/${board[0]}`} title={board[0]}>
                             {board[0]}
-                        </a>
+                        </a> /</>
                     ))}]
                 </span>
             </div>

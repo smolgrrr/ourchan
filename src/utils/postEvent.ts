@@ -7,7 +7,7 @@ import {
   signEvent,
 } from "nostr-tools";
 
-export const handleThreadSubmit = async (board: string[], subject: string, comment: string, file: string, hasSubmittedPost: boolean) => {
+export const handleThreadSubmit = async (board: string[], subject: string, comment: string, file: string, zapAddress: string, hasSubmittedPost: boolean) => {
   let message = comment + " " + file;
 
   if (!message) {
@@ -27,6 +27,7 @@ export const handleThreadSubmit = async (board: string[], subject: string, comme
     tags: [
         ["p", board[1]],
         ["subject", subject],
+        ["zapAddress", zapAddress],
     ],
     created_at: dateToUnix(),
     pubkey: 'null',

@@ -17,13 +17,14 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
   const [subject, setSubject] = useState("");
   const [comment, setComment] = useState("");
   const [file, setFile] = useState("");
+  const [zapAddress, setZapAddress] = useState("");
   const [hasSubmittedPost, setHasSubmittedPost] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 
     event.preventDefault();
     if (file !== "") {
-    handleThreadSubmit(board, subject, comment, file, hasSubmittedPost)
+    handleThreadSubmit(board, subject, comment, file, zapAddress, hasSubmittedPost)
     .then(newEvent => {
       if (newEvent) {
         publish(newEvent);
@@ -78,16 +79,20 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
               <td>Name</td>
               <td><input name="name" type="text" placeholder="Anonymous" onChange={(e) => setName(e.target.value)} /></td>
             </tr>
+            <tr data-type="Zaps">
+              <td>Zap pubkey</td>
+              <td><input name="zap" type="text" placeholder="npub.." onChange={(e) => setZapAddress(e.target.value)} /></td>
+            </tr>
             <tr data-type="Subject">
-              <td>Subject</td>
+              <td>Subject*</td>
               <td><input name="sub" type="text" onChange={(e) => setSubject(e.target.value)} /><input type="submit" defaultValue="Post" tabIndex={6} /></td>
             </tr>
             <tr data-type="Comment">
-              <td>Comment</td>
+              <td>Comment*</td>
               <td><textarea name="com" cols={48} rows={4} wrap="soft" defaultValue={""} onChange={(e) => setComment(e.target.value)} /></td>
             </tr>
             <tr data-type="Subject">
-              <td>File</td>
+              <td>File*</td>
               <td> <input type="file" name="file_input" id="file_input" required
                 onChange={(e) => {
                   const file_input = e.target.files?.[0];
