@@ -5,22 +5,22 @@ import OPPostContainer from "./OPPostContainer";
 import ReplyContainer from "./ReplyContainer";
 import ThreadFooter from "./ThreadFooter";
 import { useState } from "react";
-import Popout from "../PostForms/ReplyPopout";
-import { Event } from "../../types/types";
+import Popout from "../PostForms/PopoutMain";
+import { Event } from "nostr-tools";
 
 const Thread = () => {
     const { id } = useParams();
-    const [visible, setVisible] = useState(false);
-    const [tags, setTags] = useState<string[]>([]);
+    const [whichPopout, setWhichPopout] = useState('null');
+    const [taglist, setTaglist] = useState<Event[]>([]);
   
-    const openPopout = (event: Event) => {
-        setVisible(true);
-        setTags((prevTags) => [...prevTags, event.id]);
-      };
+    const openPopout = (event: Event, whichPopout: string) => {
+        setWhichPopout(whichPopout);
+        setTaglist((prevTags) => [...prevTags, event]);
+    };
 
-   const closePopout = () => {
-    setVisible(false);
-  };
+    const closePopout = () => {
+        setWhichPopout('null');
+    };
 
     const { events: ByOP } = useNostrEvents({
         filter: {
@@ -36,32 +36,32 @@ const Thread = () => {
     });
 
     const OP_event = ByOP[0];
+
+    //preloader before event is found
     if (!OP_event) {
         return <ThreadHeader id={'null'} reply_pk={'null'} />;
     }
-
     return (
         <div>
             <ThreadHeader id={OP_event.id} reply_pk={OP_event.pubkey} />
             <hr className="aboveMidAd" />
             <hr className="desktop" id="op" />
-            <div className="navLinks desktop">
-                [<a href="#bottom">Bottom</a>]
-                <span />
-            </div>
+                <div className="navLinks desktop">
+                    [<a href="#bottom">Bottom</a>]
+                    <span />
+                </div>
             <hr />
             <form name="delform" id="delform" method="post">
                 <div className="board">
                     <div className="thread" style={{width: '100%'}}>
                         <OPPostContainer event={OP_event} />
-                        {ByReplies.sort((a, b) => a.created_at - b.created_at).map((event) => <ReplyContainer visible={visible} openPopout={() => openPopout(event)} event={event} key={event.id}/>)}
+                        {ByReplies.sort((a, b) => a.created_at - b.created_at).map((event) => <ReplyContainer openPopout={() => openPopout(event, 'reply')} event={event} key={event.id}/>)}
                     </div>
                 </div>
                 <ThreadFooter />
             </form>
-            <Popout OP_event={OP_event} tags={tags} visible={visible} closePopout={closePopout}/>
+            <Popout whichPopout={whichPopout} events={taglist} closePopout={closePopout}/>
         </div>
-
     );
 };
 

@@ -14,12 +14,13 @@ interface ThreadHeaderProps {
 const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
   const [comment, setComment] = useState("");
   const [file, setFile] = useState("");
+  const [zapAddress, setZapAddress] = useState("");
   const { publish } = useNostr();
   const [hasSubmittedPost, setHasSubmittedPost] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleReplySubmit([id], reply_pk, comment, file, hasSubmittedPost)
+    handleReplySubmit([id], reply_pk, comment, file, zapAddress, hasSubmittedPost)
     .then(newEvent => {
       if (newEvent) {
         publish(newEvent);
@@ -72,6 +73,10 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
               <tr data-type="Comment">
                 <td>Comment</td>
                 <td><textarea name="com" cols={48} rows={4} wrap="soft" defaultValue={""} onChange={(e) => setComment(e.target.value)}/></td>
+              </tr>
+              <tr data-type="Zaps">
+                <td>Zap pubkey</td>
+                <td><input name="zap" type="text" placeholder="npub.." onChange={(e) => setZapAddress(e.target.value)} /></td>
               </tr>
               <tr data-type="Subject">
               <td>File</td>

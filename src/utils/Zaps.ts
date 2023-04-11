@@ -1,21 +1,15 @@
-import { bech32 } from "@scure/base";
-import { nip57, nip19, utils } from "nostr-tools";
-import { useNostrEvents } from "nostr-react";
 import { relayUrls } from '../constants/Const';
-// import { Event } from "../types/types";
 import {
+    nip57,
+    nip19,
     Event,
     generatePrivateKey,
-    getEventHash,
-    getPublicKey,
     finishEvent,
-    signEvent,
   } from "nostr-tools";
 
 
 // based on https://github.com/nbd-wtf/nostr-tools/blob/master/nip57.ts
-export async function zap(zapAddress: string, metadata: Event, event: Event) {
-    let amount = 100 * 1000;
+export async function createZap(zapAddress: string, amount: number, comment: string, metadata: Event, event: Event) {
     const hexZapAddress = nip19.decode(zapAddress).data;
     const endpoint = await nip57.getZapEndpoint(metadata)
 
@@ -23,13 +17,12 @@ export async function zap(zapAddress: string, metadata: Event, event: Event) {
         return 'No zap endpoint found';
     }
     const privateKey = generatePrivateKey()
-    const publicKey = getPublicKey(privateKey)
 
     const zapRequest = finishEvent(
       {
         kind: 9734,
         created_at: Date.now() / 1000,
-        content: '',
+        content: comment,
         tags: [
           ['p', hexZapAddress as string],
           ["e", event.id],

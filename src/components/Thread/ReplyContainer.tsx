@@ -9,8 +9,7 @@ import BlockQuote from "./BlockQuote";
 
 interface ReplyContainerProps {
   event: Event;
-  visible: boolean;
-  openPopout: () => void;
+  openPopout: (whichPopout: string) => void;
 }
 
 const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
@@ -56,7 +55,7 @@ const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
               <a title="Link to this post">
                 Post:
               </a>
-              <a onClick={openPopout} title="Reply to this post">
+              <a onClick={() => openPopout('reply')} title="Reply to this post">
                 ..{event.id.substring(event.id.length - 10)}
               </a>
             </span>
@@ -88,8 +87,8 @@ const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
                 /> 
               </a>
             </div>
-          )}
-              <BlockQuote content={comment} />
+           )}
+          <BlockQuote content={comment} />
         </div>
       </div>
     </>

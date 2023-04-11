@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import NostrImg from '../../utils/NostrImg';
-import { handleReplySubmit } from "../../utils/postEvent";
-import { useNostr } from "nostr-react";
 import {
   type Event as NostrEvent,
 } from "nostr-tools";
+import { useNostrEvents } from "nostr-react";
+import { createZap } from "../../utils/Zaps";
+import { parseContent } from "../../utils/parseContent";
 
-type ReplyPopoutProps = {
-  events: NostrEvent[];
+type PopoutProps = {
+  event: NostrEvent;
   closePopout: () => void;
 };
 
-const ReplyPopout: React.FC<ReplyPopoutProps> = ({
-  events,
+const ZapPopout: React.FC<PopoutProps> = ({
+  event,
   closePopout,
 }) => {
   const [position, setPosition] = useState({
@@ -22,29 +23,28 @@ const ReplyPopout: React.FC<ReplyPopoutProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const [comment, setComment] = useState("");
   const [file, setFile] = useState("");
-  const [hasSubmittedPost, setHasSubmittedPost] = useState(false);
-  const [defaultComment, setDefaultComment] = useState("");
-  const [zapAddress, setZapAddress] = useState("");
-  const { publish } = useNostr();
-  
-  const tags = events.map(event => event.id);
-  useEffect(() => {
-    setComment([`>>${tags}\n`].join(''));
-    setDefaultComment(tags.map(tag => `>>${tag}\n`).join(''));
-  }, [tags]);
+  const [invoice, setInvoice] = useState("");
+  const [amount, setAmount] = useState(100);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const updatedTags = events.map(event => event.id);
+  const { events } = useNostrEvents({
+    filter: {
+        kinds: [0],
+        authors: [event.pubkey],
+        },
+    });
 
-    handleReplySubmit(updatedTags, events[0].pubkey, comment, file, zapAddress, hasSubmittedPost)
-    .then(newEvent => {
-      if (newEvent) {
-        publish(newEvent);
-        setHasSubmittedPost(true);
-      }
-    })
-  };
+    let { zapAddress } = parseContent(event);
+    const zapButton = () => {
+        if (zapAddress) {
+            let message = comment + " " + file;
+            createZap(zapAddress, amount, message, events[0], event).then(result => {
+              setInvoice(result);
+            }).catch(error => {
+                alert('Zap failed');
+                return;
+            });
+        }
+    };
 
   async function attachFile(file_input: File | null) {
     try {
@@ -72,6 +72,8 @@ const ReplyPopout: React.FC<ReplyPopoutProps> = ({
             top: position.y,
             left: position.x,
             border: "1px solid black",
+            zIndex: 1000000,
+            textAlign: "left",
           }}
           onMouseDown={() => setIsDragging(true)}
           onMouseUp={() => setIsDragging(false)}>
@@ -85,22 +87,13 @@ const ReplyPopout: React.FC<ReplyPopoutProps> = ({
               y: position.y + e.movementY,
             };
             setPosition(newPosition);
-          }}>Reply to Thread No.<span id="qrTid">422237188</span><a onClick={closePopout}> X</a></div>
+          }}>Zap Thread No.<span id="qrTid">..{event.id.substring(event.id.length - 10)}</span><a onClick={closePopout}> X</a></div>
           <input type="hidden" defaultValue={4194304} name="MAX_FILE_SIZE" /><input type="hidden" defaultValue="regist" name="mode" /><input id="qrResto" type="hidden" defaultValue={422237188} name="resto" />
           <div id="qrForm">
-            <form encType="multipart/form-data" onSubmit={handleSubmit}><input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
+            <form encType="multipart/form-data" onSubmit={zapButton}><input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
             <input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
-            <div><input name="zap" type="text" placeholder="npub.." onChange={(e) => setZapAddress(e.target.value)} /></div>
-            <div><textarea
-              name="com"
-              cols={36}
-              rows={8}
-              wrap="soft"
-              tabIndex={0}
-              placeholder="Comment"
-              defaultValue={defaultComment}
-              onChange={(e) => setComment(e.target.value)}
-            /></div>
+            <div><label>Amount (sats):* </label><input name="zap" type="number" style={{width: '70px'}} step="100" value={amount} onChange={(e) => setAmount(e.target.valueAsNumber)} /></div>
+            <div><textarea name="com" cols={36} rows={4} wrap="soft" placeholder={"Comment (optional)"} onChange={(e) => setComment(e.target.value)} /></div>
             <div>
             </div>
             <div><input id="qrFile" name="upfile" type="file" tabIndex={0} size={19} title="Shift + Click to remove the file" onChange={(e) => {
@@ -117,7 +110,7 @@ const ReplyPopout: React.FC<ReplyPopoutProps> = ({
   );
 };
 
-export default ReplyPopout;
+export default ZapPopout;
 
 
 
