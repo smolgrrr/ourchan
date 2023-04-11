@@ -13,9 +13,12 @@ const Thread = () => {
     const [whichPopout, setWhichPopout] = useState('null');
     const [taglist, setTaglist] = useState<Event[]>([]);
   
-    const openPopout = (event: Event, whichPopout: string) => {
+    const openPopout = (whichPopout: string, event: Event) => {
         setWhichPopout(whichPopout);
-        setTaglist((prevTags) => [...prevTags, event]);
+
+        if (event) {
+            setTaglist((prevTags) => [...prevTags, event]);
+        }
     };
 
     const closePopout = () => {
@@ -54,8 +57,8 @@ const Thread = () => {
             <form name="delform" id="delform" method="post">
                 <div className="board">
                     <div className="thread" style={{width: '100%'}}>
-                        <OPPostContainer event={OP_event} />
-                        {ByReplies.sort((a, b) => a.created_at - b.created_at).map((event) => <ReplyContainer openPopout={() => openPopout(event, 'reply')} event={event} key={event.id}/>)}
+                        <OPPostContainer event={OP_event} openPopout={openPopout} />
+                        {ByReplies.sort((a, b) => a.created_at - b.created_at).map((event) => <ReplyContainer openPopout={openPopout} event={event} key={event.id}/>)}
                     </div>
                 </div>
                 <ThreadFooter />

@@ -1,6 +1,6 @@
 import { parseContent } from "../../utils/parseContent";
 import { unixToDate } from "../../utils/utils";
-import { Event } from "../../types/types";
+import { Event } from "nostr-tools";
 import { useNostrEvents } from "nostr-react";
 import QuotePreview from "./QuotePreview";
 import { useState } from "react";
@@ -9,7 +9,7 @@ import BlockQuote from "./BlockQuote";
 
 interface ReplyContainerProps {
   event: Event;
-  openPopout: (whichPopout: string) => void;
+  openPopout: (whichPopout: string, event: Event) => void;
 }
 
 const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
@@ -55,7 +55,7 @@ const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
               <a title="Link to this post">
                 Post:
               </a>
-              <a onClick={() => openPopout('reply')} title="Reply to this post">
+              <a onClick={() => openPopout('reply', event)} title="Reply to this post">
                 ..{event.id.substring(event.id.length - 10)}
               </a>
             </span>

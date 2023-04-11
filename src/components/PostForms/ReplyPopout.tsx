@@ -109,6 +109,7 @@ const ReplyPopout: React.FC<ReplyPopoutProps> = ({
                 attachFile(file_input);
               }
             }} /><input type="submit" tabIndex={6}/></div>
+                <input name="file" type="text" placeholder={"or direct media link"} onChange={(e) => setFile(e.target.value)} />
             </form>
           </div>
           <div id="qrError" />

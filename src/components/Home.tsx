@@ -45,16 +45,7 @@ const Home = () => {
                 <div className="column">
                   <h3 style={{ textDecoration: 'underline', display: 'inline' }}>Other</h3>
                   <ul>
-                    <li><a href="/g" className="boardlink">General</a></li>
-                  </ul>
-                </div>
-                <div className="column">
-                  <h3 style={{ textDecoration: 'underline', display: 'inline' }}>Interests</h3>
-                  <ul>
-                    <li><a href="/1337" className="boardlink">leet</a></li>
-                  </ul>
-                  <ul>
-                    <li><a href="/sneed" className="boardlink">sneed</a></li>
+                    <li><a href="/test" className="boardlink">test</a></li>
                   </ul>
                 </div>
                 <br className="clear-bug" />

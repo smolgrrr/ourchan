@@ -8,9 +8,10 @@ import * as bolt11 from "bolt11";
 
 interface OPPostContainerProps {
     event: Event;
+    openPopout: (whichPopout: string, event: Event) => void;
 }
 
-const OPPostContainer = ({ event}: OPPostContainerProps) => {
+const OPPostContainer = ({ event , openPopout}: OPPostContainerProps) => {
     const { subject, comment, zapAddress, file } = parseContent(event);
     const [invoice, setInvoice] = useState('nup');
     const [zapAmount, setZapAmount] = useState(0);
@@ -67,10 +68,10 @@ const OPPostContainer = ({ event}: OPPostContainerProps) => {
                     </a>
                 </div>
                 <div className="postInfo desktop" id="pi421762085">
-                    <a href="#" onClick={zapButton}><span>&#9889;{zapAmount} </span></a> 
+                    <a href="#" onClick={() => openPopout('zap', event)}><span>&#9889;{zapAmount} </span></a> 
                     <span className="subject">{subject}</span> <span className="nameBlock"><span className="name">Anonymous</span> </span>
                     <span className="dateTime" data-utc={event.created_at}>{unixToDate(event.created_at)}</span> 
-                    <span className="postNum desktop"><a title="Link to this post">Post:</a><a href={`/thread/${event.id}`} title="Reply to this post">..{event.id.substring(event.id.length - 10)}</a></span>
+                    <span className="postNum desktop"><a title="Link to this post">Post:</a><a href="#" onClick={() => openPopout('reply', event)} title="Reply to this post">..{event.id.substring(event.id.length - 10)}</a></span>
                     <a href="#" className="postMenuBtn" title="Post menu" style={{display: 'inline-block'}} data-cmd="post-menu">▶</a>
                 </div>
                 <blockquote className="postMessage" id="m421766820">{comment}</blockquote>

@@ -89,7 +89,10 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
                 }}>
               </input></td>
               </tr>
-              <input type="submit" defaultValue="Post" tabIndex={6}/>
+              <tr data-type="File link">
+                <td></td>
+                <td><input name="file" type="text" placeholder={"or direct media link"} onChange={(e) => setFile(e.target.value)} /><input type="submit" defaultValue="Post" tabIndex={6}/></td>
+              </tr>
             </tbody>
             <tfoot>
               <tr>

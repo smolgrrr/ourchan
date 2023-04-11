@@ -13,7 +13,6 @@ interface NewThreadProps {
 const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
   const board = boards[currentboard];
   const { publish } = useNostr();
-  const [name, setName] = useState("");
   const [subject, setSubject] = useState("");
   const [comment, setComment] = useState("");
   const [file, setFile] = useState("");
@@ -75,10 +74,6 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
         </div>
         <table className="postForm" id="postForm">
           <tbody>
-            <tr data-type="Name">
-              <td>Name</td>
-              <td><input name="name" type="text" placeholder="Anonymous" onChange={(e) => setName(e.target.value)} /></td>
-            </tr>
             <tr data-type="Zaps">
               <td>Zap pubkey</td>
               <td><input name="zap" type="text" placeholder="npub.." onChange={(e) => setZapAddress(e.target.value)} /></td>
@@ -91,7 +86,7 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
               <td>Comment*</td>
               <td><textarea name="com" cols={48} rows={4} wrap="soft" defaultValue={""} onChange={(e) => setComment(e.target.value)} /></td>
             </tr>
-            <tr data-type="Subject">
+            <tr data-type="File">
               <td>File*</td>
               <td> <input type="file" name="file_input" id="file_input" required
                 onChange={(e) => {
@@ -101,6 +96,10 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
                   }
                 }}>
               </input></td>
+            </tr>
+            <tr data-type="File link">
+              <td></td>
+              <td><input name="file" type="text" placeholder={"or direct media link"} onChange={(e) => setFile(e.target.value)} /></td>
             </tr>
           </tbody>
           <tfoot>
