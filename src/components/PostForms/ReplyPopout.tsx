@@ -25,13 +25,13 @@ const ReplyPopout: React.FC<ReplyPopoutProps> = ({
   const [hasSubmittedPost, setHasSubmittedPost] = useState(false);
   const [defaultComment, setDefaultComment] = useState("");
   const [zapAddress, setZapAddress] = useState("");
+  const [tags, setTags] = useState(['']);
   const { publish } = useNostr();
-  
-  const tags = events.map(event => event.id);
+
   useEffect(() => {
+    setTags(events.map(event => event.id));
     setComment([`>>${tags}\n`].join(''));
-    setDefaultComment(tags.map(tag => `>>${tag}\n`).join(''));
-  }, [tags]);
+  }, [events]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -106,8 +106,7 @@ const ReplyPopout: React.FC<ReplyPopoutProps> = ({
               rows={8}
               wrap="soft"
               tabIndex={0}
-              placeholder="Comment"
-              defaultValue={""}
+              defaultValue={tags.slice(1).map(tag => `>>${tag}\n`).join('')}
               onChange={(e) => setComment(e.target.value)}
             /></div>
             <div>
@@ -121,8 +120,8 @@ const ReplyPopout: React.FC<ReplyPopoutProps> = ({
                 <input name="file" type="text" placeholder={"or direct media link"} onChange={(e) => setFile(e.target.value)} />
             </form>
           </div>
-          <div id="qrError" />
           {comment}
+          <div id="qrError" />
         </div>
     </>
   );

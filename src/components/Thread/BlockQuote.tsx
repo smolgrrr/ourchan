@@ -30,7 +30,7 @@ const BlockQuote = ({ content }: BlockQuoteProps) => {
       const eventID = line.substring(0, 25);
       return (
         <><a key={index} className="quotelink :hover" href={`#${line.substring(2)}`}>
-            &gt;&gt;{line.substring(line.length - 21)}
+            &gt;&gt;{line.substring(line.length - 10)}
         </a><br/></>
       );
     } else if (line.startsWith(">")) {

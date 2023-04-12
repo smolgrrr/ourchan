@@ -63,7 +63,7 @@ const Thread = () => {
                 </div>
                 <ThreadFooter />
             </form>
-            <Popout whichPopout={whichPopout} events={taglist} closePopout={closePopout}/>
+            <Popout whichPopout={whichPopout} events={[OP_event, ...taglist]} closePopout={closePopout}/>
         </div>
     );
 };
