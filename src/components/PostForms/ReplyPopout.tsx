@@ -120,7 +120,6 @@ const ReplyPopout: React.FC<ReplyPopoutProps> = ({
                 <input name="file" type="text" placeholder={"or direct media link"} onChange={(e) => setFile(e.target.value)} />
             </form>
           </div>
-          {comment}
           <div id="qrError" />
         </div>
     </>

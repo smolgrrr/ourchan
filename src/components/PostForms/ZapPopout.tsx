@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NostrImg from '../../utils/NostrImg';
 import {
   type Event as NostrEvent,
+  nip19,
 } from "nostr-tools";
 import { useNostrEvents } from "nostr-react";
 import { createZap } from "../../utils/Zaps";
@@ -28,11 +29,12 @@ const ZapPopout: React.FC<PopoutProps> = ({
   const [amount, setAmount] = useState(100);
   const [clicked, setClicked] = useState(false);
 
-  let { zapAddress } = parseContent(event);
+  const { zapAddress } = parseContent(event);
+  const hexZapAddress = nip19.decode(zapAddress as string).data;
   const { events } = useNostrEvents({
     filter: {
         kinds: [0],
-        authors: [zapAddress as string],
+        authors: [hexZapAddress as string],
         },
     });
 
@@ -90,8 +92,7 @@ const ZapPopout: React.FC<PopoutProps> = ({
               y: position.y + e.movementY,
             };
             setPosition(newPosition); }}>
-          Zap Thread No.<span id="qrTid">..{event.id.substring(event.id.length - 10)}</span><a onClick={closePopout}> X</a></div>
-          <input type="hidden" defaultValue={4194304} name="MAX_FILE_SIZE" /><input type="hidden" defaultValue="regist" name="mode" /><input id="qrResto" type="hidden" defaultValue={422237188} name="resto" />
+          Zap No.<span id="qrTid">..{event.id.substring(event.id.length - 10)}</span><a onClick={closePopout}> X</a></div>
           {invoice === '' ? (
           <div id="qrForm">
             <form encType="multipart/form-data" onSubmit={zapButton}><input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />

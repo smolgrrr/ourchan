@@ -23,7 +23,7 @@ const Popout: React.FC<PopoutProps> = ({
         zap: JSX.Element;
       } = {
         reply: <ReplyPopout events={events} closePopout={closePopout}/>,
-        zap: <ZapPopout event={events[1]} closePopout={closePopout}/>,
+        zap: <ZapPopout event={events[events.length - 1]} closePopout={closePopout}/>,
         null: <></>,
       };
       

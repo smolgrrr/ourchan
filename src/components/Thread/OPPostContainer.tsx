@@ -25,37 +25,31 @@ const OPPostContainer = ({ event , openPopout}: OPPostContainerProps) => {
         },
     });
 
+
     const { events: Zaps } = useNostrEvents({
         filter: {
             kinds: [9735],
             '#e': [event.id],
         },
-      });   
-
-    const zapButton = () => {
-        if (zapAddress) {
-            createZap(zapAddress, 100, '', events[0], event).then(result => {
-              setInvoice(result);
-            }).catch(error => {
-    
-            });
-          }
-    };
+    });   
 
     useEffect(() => {
-        let zapAmount = 0;
-        for (let i = 0; i < Zaps.length; i++) {
-          const event = Zaps[i];
-            let zapped = event.tags[1][1];
-            const amount = bolt11.decode(zapped)?.satoshis;
-            // if (amount) {
-            //   zapAmount += amount;
-            // }
-            setZapAmount(amount as number);
+        // for (let i = 0; i < Zaps.length; i++) {
+        //   const event = Zaps[i];
+        //     let zapped = event.tags[1][1];
+        //     const amount = bolt11.decode(zapped)?.satoshis;
+        //     setZapAmount(amount as number);
+        // }
+        const amount = Zaps.reduce((acc, event) => {
+          let zapped = event.tags[1][1];
+          const amount = bolt11.decode(zapped)?.satoshis;
+          return acc + (amount as number);
         }
-
-  
+        , 0);
+        setZapAmount(amount);
+    
       }, [Zaps]);
+    
     
     return (
         <div className="postContainer opContainer">

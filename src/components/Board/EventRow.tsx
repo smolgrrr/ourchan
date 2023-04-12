@@ -26,19 +26,14 @@ export function useReplyCounts(event: Event) {
     const zapEvents = events.filter(
       (event) => event.kind === 9735
     );
-    let zapAmount = 0;
-    for (let i = 0; i < events.length; i++) {
-      const event = events[i];
-      if (event.kind === 9735) {
-        let zapped = event.tags[1][1];
-        const amount = bolt11.decode(zapped)?.satoshis;
-        if (amount) {
-          zapAmount += amount;
-        }
-      }
+    const amount = zapEvents.reduce((acc, event) => {
+      let zapped = event.tags[1][1];
+      const amount = bolt11.decode(zapped)?.satoshis;
+      return acc + (amount as number);
     }
+    , 0);
+    setZapAmount(amount);
 
-    setZapAmount(zapAmount);
     setReplyCount(events.length - zapEvents.length)
     setImageReplyCount(filteredEvents.length);
 
