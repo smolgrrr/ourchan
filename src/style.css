@@ -697,6 +697,53 @@ div#boardNavDesktop {
     padding-right: 5px
 }
 
+.info_wrapper {
+    display: inline-block;
+    height: 19px;
+    margin-left: 5px;
+    position: relative;
+    width: 19px;
+  }
+  .info_folder {
+    border-radius: 10px;
+    height: 19px;
+    overflow: hidden;
+    position: absolute;
+    width: 19px;
+  }
+  .info_folder:hover {
+    height: auto;
+    min-width: 200px;
+    padding: 0;
+    width: auto;
+  }
+  .info_icon {
+    border: 1px solid #66512c;
+    border-radius: 10px;
+    font-weight: 700;
+    height: 19px;
+    padding: 1px 4px;
+    width: 19px;
+    z-index: 3;
+  }
+  .info_icon,
+  .info_message {
+    background-color: #fcf8e3;
+    color: #66512c;
+    position: relative;
+  }
+  .info_message {
+    border: 1px solid #66512c;
+    border-radius: 5px;
+    bottom: 14px;
+    font-weight: 400;
+    left: 5px;
+    margin: 10px;
+    padding: 5px;
+    text-align: left;
+    z-index: 4;
+  }
+
 div#boardNavDesktop a {
     font-weight: 400;
     padding: 1px;

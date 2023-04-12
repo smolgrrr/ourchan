@@ -90,7 +90,16 @@ const ReplyPopout: React.FC<ReplyPopoutProps> = ({
           <div id="qrForm">
             <form encType="multipart/form-data" onSubmit={handleSubmit}><input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
             <input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
-            <div><input name="zap" type="text" placeholder="npub.." onChange={(e) => setZapAddress(e.target.value)} /></div>
+            <div><input name="zap" type="text" placeholder="(optional) npub for zaps" onChange={(e) => setZapAddress(e.target.value)} />
+                <div className="info_wrapper">
+                  <div className="info_folder">
+                    <div className="info_icon">?</div>
+                    <div className="info_message">
+                      Add a nostr pubkey which already has a lightning address ready to recieve sats to (NIP57)
+                    </div>
+                  </div>
+                </div>
+            </div>
             <div><textarea
               name="com"
               cols={36}
@@ -98,7 +107,7 @@ const ReplyPopout: React.FC<ReplyPopoutProps> = ({
               wrap="soft"
               tabIndex={0}
               placeholder="Comment"
-              defaultValue={defaultComment}
+              defaultValue={""}
               onChange={(e) => setComment(e.target.value)}
             /></div>
             <div>
@@ -113,6 +122,7 @@ const ReplyPopout: React.FC<ReplyPopoutProps> = ({
             </form>
           </div>
           <div id="qrError" />
+          {comment}
         </div>
     </>
   );

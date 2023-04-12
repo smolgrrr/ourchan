@@ -6,6 +6,7 @@ import {
 import { useNostrEvents } from "nostr-react";
 import { createZap } from "../../utils/Zaps";
 import { parseContent } from "../../utils/parseContent";
+import QRCode from "react-qr-code";
 
 type PopoutProps = {
   event: NostrEvent;
@@ -25,19 +26,21 @@ const ZapPopout: React.FC<PopoutProps> = ({
   const [file, setFile] = useState("");
   const [invoice, setInvoice] = useState("");
   const [amount, setAmount] = useState(100);
+  const [clicked, setClicked] = useState(false);
 
+  let { zapAddress } = parseContent(event);
   const { events } = useNostrEvents({
     filter: {
         kinds: [0],
-        authors: [event.pubkey],
+        authors: [zapAddress as string],
         },
     });
 
-    let { zapAddress } = parseContent(event);
     const zapButton = () => {
+        setClicked(true);
         if (zapAddress) {
             let message = comment + " " + file;
-            createZap(zapAddress, amount, message, events[0], event).then(result => {
+            createZap(zapAddress, amount * 1000, message, events[0], event).then(result => {
               setInvoice(result);
             }).catch(error => {
                 alert('Zap failed');
@@ -86,9 +89,10 @@ const ZapPopout: React.FC<PopoutProps> = ({
               x: position.x + e.movementX,
               y: position.y + e.movementY,
             };
-            setPosition(newPosition);
-          }}>Zap Thread No.<span id="qrTid">..{event.id.substring(event.id.length - 10)}</span><a onClick={closePopout}> X</a></div>
+            setPosition(newPosition); }}>
+          Zap Thread No.<span id="qrTid">..{event.id.substring(event.id.length - 10)}</span><a onClick={closePopout}> X</a></div>
           <input type="hidden" defaultValue={4194304} name="MAX_FILE_SIZE" /><input type="hidden" defaultValue="regist" name="mode" /><input id="qrResto" type="hidden" defaultValue={422237188} name="resto" />
+          {invoice === '' ? (
           <div id="qrForm">
             <form encType="multipart/form-data" onSubmit={zapButton}><input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
             <input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
@@ -103,7 +107,18 @@ const ZapPopout: React.FC<PopoutProps> = ({
               }
             }} /><input type="submit" tabIndex={6}/></div>
             </form>
-          </div>
+            {clicked && <span>Loading</span>}
+          </div>) : (         <div id="QRcodeInvoice">
+          <span style={{ textAlign: 'center'}}>Lightning invoice: </span>
+          <a href={"lightning:"+invoice} onClick={() => navigator.clipboard.writeText(String(invoice))}>
+          <QRCode
+                  size={128}
+                  style={{ margin: "auto", width: "100%" }}
+                  value={invoice}
+                  viewBox={`0 0 256 256`}
+              />
+          </a>
+        </div> )}
           <div id="qrError" />
         </div>
     </>

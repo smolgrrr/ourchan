@@ -74,10 +74,6 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
         </div>
         <table className="postForm" id="postForm">
           <tbody>
-            <tr data-type="Zaps">
-              <td>Zap pubkey</td>
-              <td><input name="zap" type="text" placeholder="npub.." onChange={(e) => setZapAddress(e.target.value)} /></td>
-            </tr>
             <tr data-type="Subject">
               <td>Subject*</td>
               <td><input name="sub" type="text" onChange={(e) => setSubject(e.target.value)} /><input type="submit" defaultValue="Post" tabIndex={6} /></td>
@@ -85,6 +81,19 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
             <tr data-type="Comment">
               <td>Comment*</td>
               <td><textarea name="com" cols={48} rows={4} wrap="soft" defaultValue={""} onChange={(e) => setComment(e.target.value)} /></td>
+            </tr>
+            <tr data-type="Zaps">
+              <td>Zap pubkey
+              <div className="info_wrapper">
+                  <div className="info_folder">
+                    <div className="info_icon">?</div>
+                    <div className="info_message">
+                      Add a nostr pubkey which already has a lightning address ready to recieve sats to (NIP57)
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td><input name="zap" type="text" placeholder="npub.." onChange={(e) => setZapAddress(e.target.value)} /></td>
             </tr>
             <tr data-type="File">
               <td>File*</td>

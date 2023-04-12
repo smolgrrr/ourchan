@@ -75,7 +75,17 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
                 <td><textarea name="com" cols={48} rows={4} wrap="soft" defaultValue={""} onChange={(e) => setComment(e.target.value)}/></td>
               </tr>
               <tr data-type="Zaps">
-                <td>Zap pubkey</td>
+                <td style={{padding: '1px'}}>Zap pubkey
+                <div className="info_wrapper">
+                  <div className="info_folder">
+                    <div className="info_icon">?</div>
+                    <div className="info_message">
+                      Add a nostr pubkey which already has a lightning address ready to recieve sats to (NIP57)
+                    </div>
+                  </div>
+                </div>
+                </td>
+
                 <td><input name="zap" type="text" placeholder="npub.." onChange={(e) => setZapAddress(e.target.value)} /></td>
               </tr>
               <tr data-type="Subject">
@@ -91,7 +101,7 @@ const ThreadHeader = ({ id, reply_pk}: ThreadHeaderProps) => {
               </tr>
               <tr data-type="File link">
                 <td></td>
-                <td><input name="file" type="text" placeholder={"or direct media link"} onChange={(e) => setFile(e.target.value)} /><input type="submit" defaultValue="Post" tabIndex={6}/></td>
+                <td><input name="file_text" type="text" placeholder={"or direct media link"} onChange={(e) => setFile(e.target.value)} /><input type="submit" defaultValue="Post" tabIndex={6}/></td>
               </tr>
             </tbody>
             <tfoot>
