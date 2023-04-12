@@ -20,15 +20,17 @@ export const handleThreadSubmit = async (board: string[], subject: string, comme
     return;
   }
 
+  const tags = [["p", board[1]]];
+  tags.push(["subject", subject]);
+  if (zapAddress !== '') {
+    tags.push(["zapAddress", zapAddress]);
+  }
+
   const newEvent: NostrEvent = {
     id: 'null',
     content: message,
     kind: 1,
-    tags: [
-        ["p", board[1]],
-        ["subject", subject],
-        ["zapAddress", zapAddress],
-    ],
+    tags,
     created_at: dateToUnix(),
     pubkey: 'null',
     sig: 'null',

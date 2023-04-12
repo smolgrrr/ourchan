@@ -11,7 +11,7 @@ export function useReplyCounts(event: Event) {
     filter: {
       kinds: [1, 9735],
       '#e': [event.id],
-      limit: 75,    
+      limit: 100,
     },
   });
   const [replyCount, setReplyCount] = useState(events.length);

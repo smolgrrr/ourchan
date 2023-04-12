@@ -33,12 +33,6 @@ const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
 
 
   useEffect(() => {
-    // for (let i = 0; i < Zaps.length; i++) {
-    //   const event = Zaps[i];
-    //     let zapped = event.tags[1][1];
-    //     const amount = bolt11.decode(zapped)?.satoshis;
-    //     setZapAmount(amount as number);
-    // }
     const amount = Zaps.reduce((acc, event) => {
       let zapped = event.tags[1][1];
       const amount = bolt11.decode(zapped)?.satoshis;

@@ -13,7 +13,6 @@ interface OPPostContainerProps {
 
 const OPPostContainer = ({ event , openPopout}: OPPostContainerProps) => {
     const { subject, comment, zapAddress, file } = parseContent(event);
-    const [invoice, setInvoice] = useState('nup');
     const [zapAmount, setZapAmount] = useState(0);
 
     event.kind = 1;
@@ -33,13 +32,8 @@ const OPPostContainer = ({ event , openPopout}: OPPostContainerProps) => {
         },
     });   
 
+    const zapAddressExists: boolean = event.tags.find(tag => tag[0] === 'zapAddress') !== undefined;
     useEffect(() => {
-        // for (let i = 0; i < Zaps.length; i++) {
-        //   const event = Zaps[i];
-        //     let zapped = event.tags[1][1];
-        //     const amount = bolt11.decode(zapped)?.satoshis;
-        //     setZapAmount(amount as number);
-        // }
         const amount = Zaps.reduce((acc, event) => {
           let zapped = event.tags[1][1];
           const amount = bolt11.decode(zapped)?.satoshis;
@@ -62,7 +56,7 @@ const OPPostContainer = ({ event , openPopout}: OPPostContainerProps) => {
                     </a>
                 </div>
                 <div className="postInfo desktop" id="pi421762085">
-                    <a href="#" onClick={() => openPopout('zap', event)}><span>&#9889;{zapAmount} </span></a> 
+                    {zapAddressExists && <a href="#" onClick={() => openPopout('zap', event)}><span>&#9889;{zapAmount} </span></a> }
                     <span className="subject">{subject}</span> <span className="nameBlock"><span className="name">Anonymous</span> </span>
                     <span className="dateTime" data-utc={event.created_at}>{unixToDate(event.created_at)}</span> 
                     <span className="postNum desktop"><a title="Link to this post">Post:</a><a href="#" onClick={() => openPopout('reply', event)} title="Reply to this post">..{event.id.substring(event.id.length - 10)}</a></span>

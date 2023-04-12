@@ -23,7 +23,7 @@ const Catalog: React.FC<CatalogBannerProps> = ({ currentboard }) => {
     filter: {
        kinds: [1],
       '#p': [board[1]],
-      limit: 50,
+      limit: 100,
     },
   });
 
