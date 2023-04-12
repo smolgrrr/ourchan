@@ -18,8 +18,7 @@ OurChan should keep the important properties and structures used on 4chan <br/>
 Make your own board under <br/>
 boards from "../../constants/Const";<br/>
 Create a pull request with the board's pubkey to get yours added<br/> 
-/g/ - fc79f7f5306b6cfe949ac5bafffafe9bb9c60c2afd6dd5789297d7151e2506e3<br/>
-/1337/ - 0d90c8723f3332ed834da1b26a72c84d18bd5de26aa5ae1424e2875d528c6b37<br/>
+/g/ - 39170f7463ba96f8c5e6d063002cc5125334edaf2fdb21715eab1f43c1b6eb29<br/>
 
 ### Relays
 Use your own relay or different relays under <br/>

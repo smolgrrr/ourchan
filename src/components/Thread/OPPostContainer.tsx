@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useNostrEvents } from "nostr-react";
 import { Event, nip57, nip19, utils } from "nostr-tools";
 import * as bolt11 from "bolt11";
+import BlockQuote from "./BlockQuote";
 
 interface OPPostContainerProps {
     event: Event;
@@ -62,7 +63,7 @@ const OPPostContainer = ({ event , openPopout}: OPPostContainerProps) => {
                     <span className="postNum desktop"><a title="Link to this post">Post:</a><a href="#" onClick={() => openPopout('reply', event)} title="Reply to this post">..{event.id.substring(event.id.length - 10)}</a></span>
                     <a href="#" className="postMenuBtn" title="Post menu" style={{display: 'inline-block'}} data-cmd="post-menu">▶</a>
                 </div>
-                <blockquote className="postMessage" id="m421766820">{comment}</blockquote>
+                <BlockQuote content={comment} />
             </div>
         </div>
     );
