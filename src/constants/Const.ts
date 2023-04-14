@@ -25,6 +25,12 @@ export const BlotterMsgsText = [
 // Pinned posts
 export const pinnedPosts = [
   ["g", "39170f7463ba96f8c5e6d063002cc5125334edaf2fdb21715eab1f43c1b6eb29"],
-  ["test", "66ac78df5b36fc75ea192d75c5ec5b1d472d16a05d180bd9b65d5f19d45ff90b"]
+  ["test", "66ac78df5b36fc75ea192d75c5ec5b1d472d16a05d180bd9b65d5f19d45ff90b"],
 ];
 
+
+//Ads
+export const ads = [
+  ["https://powrelay.xyz/about.html", "https://i.imgur.com/v3xipT9.png"],
+  ["https://snort.social/p/npub13azv2cf3kd3xdzcwqxlgcudjg7r9nzak37usnn7h374lkpvd6rcq4k8m54", "https://i.imgur.com/KvfZcIW.png"],
+];

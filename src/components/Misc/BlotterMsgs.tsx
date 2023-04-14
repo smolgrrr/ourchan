@@ -16,7 +16,7 @@ const BlotterMsgs = () => {
                     {BlotterMsgsText.map((Msg, index) => (
                         <tr key={Msg[0] + index}>
                             <td className="blotter-date">{Msg[0]}</td>
-                            <td className="blotter-content">{Msg[1]}<a target="_blank" title="General" href={`/${Msg[2]}`}>{Msg[2]}/</a></td>
+                            <td className="blotter-content">{Msg[1]}<a target="_blank" title="General" href={`${Msg[2]}`}>{Msg[2]}/</a></td>
                         </tr>
                     ))}
                 </tbody>

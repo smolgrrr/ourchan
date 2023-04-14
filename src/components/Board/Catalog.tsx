@@ -1,5 +1,5 @@
 import { useNostrEvents } from "nostr-react";
-import { EventRow } from './EventRow';
+import EventRow from './EventRow';
 import { boards } from "../../constants/Const";
 import "./thread.css"
 import { PinnedPosts } from "./PinnedPosts";
@@ -9,11 +9,11 @@ interface CatalogBannerProps {
   currentboard: number;
 }
 
-const Catalog: React.FC<CatalogBannerProps> = ({ currentboard }) => {
+const useNostrEventsForBoard = (currentboard: number) => {
   const board = boards[currentboard];
   const pinnedPostsBoard: string[] | undefined = pinnedPosts.find(pinnedPost => pinnedPost[0] === board[0]);
 
-  const { events: Pinned } = useNostrEvents({
+  const { events: pinnedEvents } = useNostrEvents({
     filter: {
       ids: pinnedPostsBoard ? [pinnedPostsBoard[1]] : [],
     },
@@ -27,6 +27,12 @@ const Catalog: React.FC<CatalogBannerProps> = ({ currentboard }) => {
     },
   });
 
+  return { pinnedEvents, events };
+};
+
+const Catalog: React.FC<CatalogBannerProps> = ({ currentboard }) => {
+  const { pinnedEvents, events } = useNostrEventsForBoard(currentboard);
+
   return (
     <>
     <div id="ctrl-top" className="desktop">
@@ -34,9 +40,8 @@ const Catalog: React.FC<CatalogBannerProps> = ({ currentboard }) => {
     </div>
     <div id="content">
       <div id="threads" className="extended-small">
-          {/* {events.sort((a, b) => a.created_at - b.created_at).map((event) => <EventRow event={event} />)} */}
-          {Pinned.map((event) => <PinnedPosts event={event} />)}
-          {events.map((event) => <EventRow event={event} />)}
+          {pinnedEvents.map((event) => <PinnedPosts key={event.id} event={event} />)}
+          {events.map((event) => <EventRow key={event.id} event={event} />)}
       </div>
     </div>
     </>

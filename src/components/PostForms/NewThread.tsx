@@ -97,7 +97,7 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
             </tr>
             <tr data-type="File">
               <td>File*</td>
-              <td> <input type="file" name="file_input" id="file_input" required
+              <td> <input type="file" name="file_input" id="file_input"
                 onChange={(e) => {
                   const file_input = e.target.files?.[0];
                   if (file_input) {

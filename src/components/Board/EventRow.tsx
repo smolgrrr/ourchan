@@ -14,7 +14,7 @@ export function useReplyCounts(event: Event) {
       limit: 100,
     },
   });
-  const [replyCount, setReplyCount] = useState(events.length);
+  const [replyCount, setReplyCount] = useState(0);
   const [imageReplyCount, setImageReplyCount] = useState(0);
   const [zapAmount, setZapAmount] = useState(0);
 
@@ -42,7 +42,11 @@ export function useReplyCounts(event: Event) {
   return { replyCount, zapAmount, imageReplyCount };
 }
 
-export function EventRow({ event }: { event: Event }) {
+type EventRowProps = {
+  event: Event;
+};
+
+const EventRow = ({ event }: EventRowProps) =>  {
   const { replyCount, zapAmount, imageReplyCount } = useReplyCounts(event);
   const { subject, zapAddress, comment, file } = parseContent(event);
   const [whichPopout, setWhichPopout] = useState('null');
@@ -73,3 +77,5 @@ export function EventRow({ event }: { event: Event }) {
   </>
   );
 }
+
+export default EventRow;

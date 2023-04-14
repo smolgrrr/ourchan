@@ -1,4 +1,5 @@
-import { boards } from "../../constants/Const";
+import { boards, ads } from "../../constants/Const";
+import { useState, useMemo } from "react";
 
 interface BoardBannerProps {
     currentboard: number | null;
@@ -7,6 +8,12 @@ interface BoardBannerProps {
 const BoardBanner: React.FC<BoardBannerProps> = ({ currentboard }) => {
     const board = currentboard ? boards[currentboard] : null;
     const boardTitle = board ? `/${board[0]}/ - ${board[2]}` : null;
+
+    const [adIndex, setAdIndex] = useState(0);
+
+    useMemo(() => {
+        setAdIndex(Math.floor(Math.random() * 2));
+    }, []);
 
     return (
         <>
@@ -23,7 +30,9 @@ const BoardBanner: React.FC<BoardBannerProps> = ({ currentboard }) => {
                 <a href="#bottom">▼</a> <a href="/">Mobile</a> <a href="/" target="_top">Home</a>
             </div>
             <div className="boardBanner">
-                <div id="bannerCnt" className="title desktop" data-src="7.png"><img alt="ourChan" src="7.png" /></div>
+                <div id="bannerCnt" className="title desktop">
+                    <a href={ads[adIndex][0]} target="_blank"><img alt="ourChan" src={ads[adIndex][1]} /></a>
+                </div>
                 {boardTitle && <div className="boardTitle">{boardTitle}</div>}
             </div>
         </>
