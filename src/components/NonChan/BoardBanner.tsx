@@ -6,8 +6,6 @@ interface BoardBannerProps {
 }
 
 const BoardBanner: React.FC<BoardBannerProps> = ({ currentboard }) => {
-    const board = boards[currentboard as number];
-    const boardTitle = board ? `/${board[0]}/ - ${board[2]}` : null;
 
     const [adIndex, setAdIndex] = useState(0);
 
@@ -28,7 +26,7 @@ const BoardBanner: React.FC<BoardBannerProps> = ({ currentboard }) => {
                         <><a key={board[0]} href={`/${board[0]}`} title={board[0]}>
                             {board[1]}
                         </a> /</>
-                    ))}]
+                    ))}]                    
                 </span>
             </div>
             <div className="pageJump">
@@ -38,7 +36,7 @@ const BoardBanner: React.FC<BoardBannerProps> = ({ currentboard }) => {
                 <div id="bannerCnt" className="title desktop">
                     <a href={ads[adIndex][0]} target="_blank"><img alt="ourChan" src={ads[adIndex][1]} /></a>
                 </div>
-                <div className="boardTitle">{boardTitle}</div>
+                <div className="boardTitle">Mostr - /mostr/</div>
             </div>
         </>
     );

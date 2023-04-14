@@ -7,6 +7,7 @@ export const relayUrls = [
     "wss://nostr.frennet.xyz",
     "wss://nostr.libertasprimordium.com",
     "wss://relay.shitforce.one",
+    "wss://relay.mostr.pub",
   ];
 
 // Boards
@@ -33,4 +34,9 @@ export const pinnedPosts = [
 export const ads = [
   ["https://powrelay.xyz/about.html", "https://i.imgur.com/v3xipT9.png"],
   ["https://snort.social/p/npub13azv2cf3kd3xdzcwqxlgcudjg7r9nzak37usnn7h374lkpvd6rcq4k8m54", "https://i.imgur.com/KvfZcIW.png"],
+];
+
+//NonChan Boards
+export const nonChanBoards = [
+  ["mostr", "Mostr"],
 ];

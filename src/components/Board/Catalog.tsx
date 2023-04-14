@@ -36,7 +36,7 @@ const Catalog: React.FC<CatalogBannerProps> = ({ currentboard }) => {
   return (
     <>
     <div id="ctrl-top" className="desktop">
-    <hr /><input type="text" id="search-box" placeholder="Search OPs…" /> [<a href="/g">Catalog</a>]
+    <hr /><input type="text" id="search-box" placeholder="Search OPs…" /> [<a href="">Catalog</a>]
     </div>
     <div id="content">
       <div id="threads" className="extended-small">
