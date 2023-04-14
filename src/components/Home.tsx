@@ -47,6 +47,15 @@ const Home = () => {
                   <ul>
                     <li><a href="/g" className="boardlink">General</a></li>
                   </ul>
+                  <ul>
+                    <li><a href="/pol" className="boardlink">Politically Incorrect</a></li>
+                  </ul>
+                </div>
+                <div className="column">
+                  <h3 style={{ textDecoration: 'underline', display: 'inline' }}>NonChan feeds</h3>
+                  <ul>
+                    <li><a href="/mostr" className="boardlink">Mostr relay</a></li>
+                  </ul>
                 </div>
                 <br className="clear-bug" />
               </div>
