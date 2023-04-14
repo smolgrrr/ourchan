@@ -15,6 +15,7 @@ export const relayUrls = [
 export const boards = [
   // ["test", "11feacea2cdd96a605a3d3d2e04d5284e6097ffde743fe0bae2b8f951e9cc0df", "test"],
   ["g", "90e71103a2735cc0d104299e18465bea84876d8dd558ff871e969615c50185c8", "General"],
+  ["pol","e841fa5bf71dfdcb51a6d63637eb94e93dbd9ce8a5faad184b752e535bd3e7ed", "Politically Incorrect"],
 ];
 
 // Blotter Messages
@@ -26,6 +27,7 @@ export const BlotterMsgsText = [
 // Pinned posts
 export const pinnedPosts = [
   ["g", "39170f7463ba96f8c5e6d063002cc5125334edaf2fdb21715eab1f43c1b6eb29"],
+  ["pol", "136e9e853e2685d647fc232a0b0641d965f872896633a3b5ab9224755b81115d"],
   ["test", "66ac78df5b36fc75ea192d75c5ec5b1d472d16a05d180bd9b65d5f19d45ff90b"],
 ];
 

@@ -1,5 +1,5 @@
 import { Event } from "nostr-tools";
-import EventRow from '../Board/EventRow';
+import EventRow from './EventRow';
 import "../Board/thread.css"
 import {
     relayInit,
@@ -25,7 +25,7 @@ function containsMedia(content: string){
 
 async function mostrEvents() {
     await relay.connect()
-    let events = await relay.list([{kinds: [1], limit: 200}])
+    let events = await relay.list([{kinds: [1], limit: 100}])
 
     events = events.filter((event: Event) => {
         if (event.content) {
