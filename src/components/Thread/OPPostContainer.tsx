@@ -67,7 +67,6 @@ const OPPostContainer = ({ event , openPopout}: OPPostContainerProps) => {
                     <div className="fileText">File: <a href={file} target="_blank">{file.substring(file.length - 21)}</a></div>
                     <a className="fileThumb" href={file} target="_blank">
                       {renderMedia()}
-                        <img src={file} alt="377 KB" data-md5="TaFWJ19lIH43I954gO55gA==" style={{ maxHeight: '250px', maxWidth: '236px' }} loading="lazy" />
                     </a>
                 </div>
                 <div className="postInfo desktop" id="pi421762085">
