@@ -13,7 +13,7 @@ export const relayUrls = [
 // Boards
 // format is [boardlinkParam, boardPubkeyHash, boardNickname]
 export const boards = [
-  // ["test", "11feacea2cdd96a605a3d3d2e04d5284e6097ffde743fe0bae2b8f951e9cc0df", "test"],
+  ["test", "11feacea2cdd96a605a3d3d2e04d5284e6097ffde743fe0bae2b8f951e9cc0df", "test"],
   ["g", "90e71103a2735cc0d104299e18465bea84876d8dd558ff871e969615c50185c8", "General"],
   ["pol","e841fa5bf71dfdcb51a6d63637eb94e93dbd9ce8a5faad184b752e535bd3e7ed", "Politically Incorrect"],
 ];
@@ -35,7 +35,7 @@ export const pinnedPosts = [
 //Ads
 export const ads = [
   ["https://powrelay.xyz/about.html", "https://i.imgur.com/v3xipT9.png"],
-  ["https://snort.social/p/npub13azv2cf3kd3xdzcwqxlgcudjg7r9nzak37usnn7h374lkpvd6rcq4k8m54", "https://i.imgur.com/KvfZcIW.png"],
+  ["", "https://i.imgur.com/j090mzd.png"],
 ];
 
 //NonChan Boards

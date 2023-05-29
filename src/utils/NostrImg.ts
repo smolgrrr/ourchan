@@ -3,42 +3,62 @@ export interface UploadResult {
     error?: string;
   }
 
-export default async function NostrImg(file: File | Blob): Promise<UploadResult> {
-    const fd = new FormData();
-    fd.append("image", file);
+/**
+ * Upload file to void.cat
+ * https://void.cat/swagger/index.html
+ */
+
+export default async function NostrImg(file: File ): Promise<UploadResult> {
+    const buf = await file.arrayBuffer();
   
-    const rsp = await fetch("https://nostrimg.com/api/upload", {
-      body: fd,
+    const req = await fetch("https://void.cat/upload", {
+      body: buf,
       method: "POST",
       headers: {
-        accept: "application/json",
+        "Content-Type": "application/octet-stream",
+        "V-Content-Type": file.type, // Extracting the mime type
+        "V-Filename": file.name, // Extracting the filename
+        "V-Description": "Upload from https://ourchan.org",
       },
     });
-    if (rsp.ok) {
-      const data: UploadResponse = await rsp.json();
-      if (typeof data?.imageUrl === "string" && data.success) {
-        return {
-          url: new URL(data.imageUrl).toString(),
-        };
-      }
+    if (req.ok) {
+        let rsp: VoidUploadResponse = await req.json();
+        const fileExtension = file.name.split('.').pop(); // Extracting the file extension
+        const resultUrl = `https://void.cat/d/${rsp.file?.id}.${fileExtension}`;
+        return {url: resultUrl};
     }
     return {
       error: "Upload failed",
     };
   }
-  
-  interface UploadResponse {
-    fileID?: string;
-    fileName?: string;
-    imageUrl?: string;
-    lightningDestination?: string;
-    lightningPaymentLink?: string;
-    message?: string;
-    route?: string;
-    status: number;
-    success: boolean;
-    url?: string;
-    data?: {
-      url?: string;
-    };
-  }
+
+export interface UploadResult {
+  url?: string;
+  error?: string;
+}
+
+export type VoidUploadResponse = {
+    ok: boolean,
+    file?: VoidFile,
+    errorMessage?: string,
+}
+
+export type VoidFile = {
+    id: string,
+    meta?: VoidFileMeta
+}
+
+export type VoidFileMeta = {
+    version: number,
+    id: string,
+    name?: string,
+    size: number,
+    uploaded: Date,
+    description?: string,
+    mimeType?: string,
+    digest?: string,
+    url?: string,
+    expires?: Date,
+    storage?: string,
+    encryptionParams?: string,
+}

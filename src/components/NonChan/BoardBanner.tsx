@@ -34,7 +34,7 @@ const BoardBanner: React.FC<BoardBannerProps> = ({ currentboard }) => {
             </div>
             <div className="boardBanner">
                 <div id="bannerCnt" className="title desktop">
-                    <a href={ads[adIndex][0]} target="_blank"><img alt="ourChan" src={ads[adIndex][1]} /></a>
+                    <a href={ads[adIndex][0]} target="_blank"><img width={300} alt="ourChan" src={ads[adIndex][1]} /></a>
                 </div>
                 <div className="boardTitle">Mostr - /mostr/</div>
             </div>

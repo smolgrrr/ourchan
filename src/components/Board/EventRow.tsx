@@ -59,11 +59,27 @@ const EventRow = ({ event }: EventRowProps) =>  {
       setWhichPopout('null');
     }
   };
-
+  
+  const renderMedia = () => {
+    if (file && (file.endsWith(".mp4") || file.endsWith(".webm"))) {
+      return (
+        <video controls className="thumb" style={{ maxWidth: "150px", maxHeight: "150px" }}>
+          <source src={file} type="video/mp4" />
+        </video>
+      );
+    } else {
+      return (
+          <img alt="Invalid thread" loading="lazy" className="thumb" style={{ maxWidth: "150px", maxHeight: "150px" }} src={file} />
+      );
+    }
+  };
+  
   return (
   <>
     <div className="thread">
-      <a href={`/thread/${event.id}`}><img alt="Invalid thread" loading="lazy" className="thumb" style={{ maxWidth: "150px", maxHeight: "150px" }} src={file} /></a>
+      <a href={`/thread/${event.id}`}>
+      {renderMedia()}
+      </a>
       {zapAddress ? <div className="threadIcons">
         <a href="#" onClick={closePopout}><span>&#9889;</span></a>
       </div> : null}

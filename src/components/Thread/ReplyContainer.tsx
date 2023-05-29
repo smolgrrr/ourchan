@@ -43,6 +43,20 @@ const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
 
   }, [Zaps]);
 
+    const renderMedia = () => {
+    if (file && (file.endsWith(".mp4") || file.endsWith(".webm"))) {
+      return (
+        <video controls className="thumb" style={{ maxWidth: "150px", maxHeight: "150px" }}>
+          <source src={file} type="video/mp4" />
+        </video>
+      );
+    } else {
+      return (
+          <img alt="Invalid thread" loading="lazy" className="thumb" style={{ maxWidth: "150px", maxHeight: "150px" }} src={file} />
+      );
+    }
+  };
+  
   return (
     <>
       <div id={event.id} className="postContainer replyContainer">

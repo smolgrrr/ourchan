@@ -45,7 +45,20 @@ const OPPostContainer = ({ event , openPopout}: OPPostContainerProps) => {
     
       }, [Zaps]);
     
-    
+      const renderMedia = () => {
+    if (file && (file.endsWith(".mp4") || file.endsWith(".webm"))) {
+      return (
+        <video controls className="thumb" style={{ maxWidth: "150px", maxHeight: "150px" }}>
+          <source src={file} type="video/mp4" />
+        </video>
+      );
+    } else {
+      return (
+          <img alt="Invalid thread" loading="lazy" className="thumb" style={{ maxWidth: "150px", maxHeight: "150px" }} src={file} />
+      );
+    }
+  };
+  
     return (
         <div className="postContainer opContainer">
             <div id="p421762085" className="post op">
@@ -53,6 +66,7 @@ const OPPostContainer = ({ event , openPopout}: OPPostContainerProps) => {
                 <div className="file" id="f421762085">
                     <div className="fileText">File: <a href={file} target="_blank">{file.substring(file.length - 21)}</a></div>
                     <a className="fileThumb" href={file} target="_blank">
+                      {renderMedia()}
                         <img src={file} alt="377 KB" data-md5="TaFWJ19lIH43I954gO55gA==" style={{ maxHeight: '250px', maxWidth: '236px' }} loading="lazy" />
                     </a>
                 </div>
