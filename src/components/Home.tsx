@@ -48,7 +48,7 @@ const Home = () => {
                     <li><a href="/g" className="boardlink">General</a></li>
                   </ul>
                   <ul>
-                    <li><a href="/btc" className="boardlink">Bitcoin</a></li>
+                    <li><a href="/f" className="boardlink">Free</a></li>
                   </ul>
                 </div>
                 <div className="column">

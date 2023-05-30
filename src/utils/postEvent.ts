@@ -7,10 +7,8 @@ import {
   signEvent,
 } from "nostr-tools";
 
-export const handleThreadSubmit = async (board: string[], subject: string, comment: string, file: string, zapAddress: string, hasSubmittedPost: boolean) => {
-  let message = comment + " " + file;
-
-  if (!message) {
+export const handleThreadSubmit = async (board: string[], subject: string, comment: string, zapAddress: string, hasSubmittedPost: boolean) => {
+  if (!comment) {
     alert("no message provided");
     return;
   }
@@ -28,7 +26,7 @@ export const handleThreadSubmit = async (board: string[], subject: string, comme
 
   const newEvent: NostrEvent = {
     id: 'null',
-    content: message,
+    content: comment,
     kind: 1,
     tags,
     created_at: dateToUnix(),

@@ -15,23 +15,31 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
   const { publish } = useNostr();
   const [subject, setSubject] = useState("");
   const [comment, setComment] = useState("");
-  const [file, setFile] = useState("");
   const [zapAddress, setZapAddress] = useState("");
   const [hasSubmittedPost, setHasSubmittedPost] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
     event.preventDefault();
-    if (file !== "") {
-    handleThreadSubmit(board, subject, comment, file, zapAddress, hasSubmittedPost)
-    .then(newEvent => {
+    // try {
+    // handleThreadSubmit(board, subject, comment, zapAddress, hasSubmittedPost)
+    // .then(newEvent => {
+    //   if (newEvent) {
+    //     publish(newEvent);
+    //     setHasSubmittedPost(true);
+    //   }
+    // }) } else {
+    //   alert("Wait: media is still being uploaded");
+    //   return;
+    // }
+    try {
+      const newEvent = await handleThreadSubmit(board, subject, comment, zapAddress, hasSubmittedPost);
       if (newEvent) {
         publish(newEvent);
         setHasSubmittedPost(true);
       }
-    }) } else {
-      alert("Wait: media is still being uploaded");
-      return;
+    } catch (error) {
+      setComment(comment + " " + error);
     }
   };
 
@@ -40,14 +48,14 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
       if (file_input) {
         const rx = await NostrImg(file_input);
         if (rx.url) {
-          setFile(rx.url);
+          setComment(comment + " " + rx.url);
         } else if (rx?.error) {
-          setFile(rx.error);
+          setComment(comment + " " + rx.error);
         }
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
-        setFile(error?.message);
+        setComment(comment + " " + error?.message);
       }
     }
   }
@@ -80,7 +88,7 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
             </tr>
             <tr data-type="Comment">
               <td>Comment*</td>
-              <td><textarea name="com" cols={48} rows={4} wrap="soft" defaultValue={""} onChange={(e) => setComment(e.target.value)} /></td>
+              <td><textarea name="com" cols={48} rows={4} wrap="soft" value={comment} onChange={(e) => setComment(e.target.value)} /></td>
             </tr>
             <tr data-type="Zaps">
               <td>Zap pubkey
@@ -104,11 +112,12 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
                     attachFile(file_input);
                   }
                 }}>
-              </input></td>
+              </input>
+              </td>
             </tr>
-            <tr data-type="File link">
+            <tr>
               <td></td>
-              <td><input name="file" type="text" placeholder={"or direct media link"} onChange={(e) => setFile(e.target.value)} /></td>
+              <td>Wait for media link to appear in comment before posting.</td>
             </tr>
           </tbody>
           <tfoot>

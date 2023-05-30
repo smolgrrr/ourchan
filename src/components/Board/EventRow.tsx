@@ -5,6 +5,7 @@ import "./thread.css"
 import { Event } from "nostr-tools";
 import * as bolt11 from "bolt11";
 import Popout from "../PostForms/PopoutMain";
+import media_failed from "../../assets/media_failed.png";
 
 export function useReplyCounts(event: Event) {
   const { events } = useNostrEvents({
@@ -26,14 +27,23 @@ export function useReplyCounts(event: Event) {
     const zapEvents = events.filter(
       (event) => event.kind === 9735
     );
-    const amount = zapEvents.reduce((acc, event) => {
-      let zapped = event.tags[1][1];
-      const amount = bolt11.decode(zapped)?.satoshis;
-      return acc + (amount as number);
+    
+  const amount = zapEvents.reduce((acc, event) => {
+    let zapped = event.tags[1][1];
+    try {
+      const decoded = bolt11.decode(zapped);
+      const decodedAmount = decoded?.satoshis;
+      if (decodedAmount == null) {
+        throw new Error('Invalid invoice');
+      } else {
+      return acc + decodedAmount;
+      }
+    } catch (error) {
+      return acc;
     }
-    , 0);
+  }, 0);
+    
     setZapAmount(amount);
-
     setReplyCount(events.length - zapEvents.length)
     setImageReplyCount(filteredEvents.length);
 
@@ -66,6 +76,10 @@ const EventRow = ({ event }: EventRowProps) =>  {
         <video controls className="thumb" style={{ maxWidth: "150px", maxHeight: "150px" }}>
           <source src={file} type="video/mp4" />
         </video>
+      );
+    } else if (!file.includes("http")) {
+      return (
+          <img alt="Invalid thread" loading="lazy" className="thumb" style={{ maxWidth: "150px", maxHeight: "150px" }} src={media_failed} />
       );
     } else {
       return (
