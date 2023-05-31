@@ -21,17 +21,7 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
     event.preventDefault();
-    // try {
-    // handleThreadSubmit(board, subject, comment, zapAddress, hasSubmittedPost)
-    // .then(newEvent => {
-    //   if (newEvent) {
-    //     publish(newEvent);
-    //     setHasSubmittedPost(true);
-    //   }
-    // }) } else {
-    //   alert("Wait: media is still being uploaded");
-    //   return;
-    // }
+
     try {
       const newEvent = await handleThreadSubmit(board, subject, comment, zapAddress, hasSubmittedPost);
       if (newEvent) {

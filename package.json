@@ -16,7 +16,8 @@
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
     "react-showdown": "^2.3.1",
-    "typescript": "^4.4.2"
+    "typescript": "^4.4.2",
+    "webpack": "^5.84.1"
   },
   "devDependencies": {
     "customize-cra": "^1.0.0",

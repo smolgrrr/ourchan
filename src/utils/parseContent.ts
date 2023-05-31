@@ -1,7 +1,7 @@
 import { Event } from "../types/types";
 
 function extractMediaUrl(content: string){
-  const regex = /(https?:\/\/\S+\.(?:jpg|png|jpeg|gif|mp4|webm|mov))/i;
+  const regex = /(https?:\/\/\S+\.(?:jpg|png|jpeg|gif|mp4|webm|mov|webp))/i;
   const match = content.match(regex);
   if (match) {
     return match[0];

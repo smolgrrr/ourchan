@@ -19,19 +19,17 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
   const [zapAddress, setZapAddress] = useState("");
   const [hasSubmittedPost, setHasSubmittedPost] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (file !== "") {
-    handleThreadSubmit(['',''], subject, comment, file, zapAddress, hasSubmittedPost)
-    .then(newEvent => {
+
+    try {
+      const newEvent = await handleThreadSubmit(['',''], subject, comment, zapAddress, hasSubmittedPost);
       if (newEvent) {
         publish(newEvent);
         setHasSubmittedPost(true);
       }
-    }) } else {
-      alert("Wait: media is still being uploaded");
-      return;
+    } catch (error) {
+      setComment(comment + " " + error);
     }
   };
 
@@ -40,14 +38,14 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
       if (file_input) {
         const rx = await NostrImg(file_input);
         if (rx.url) {
-          setFile(rx.url);
+          setComment(comment + " " + rx.url);
         } else if (rx?.error) {
-          setFile(rx.error);
+          setComment(comment + " " + rx.error);
         }
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
-        setFile(error?.message);
+        setComment(comment + " " + error?.message);
       }
     }
   }

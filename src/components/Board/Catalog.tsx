@@ -26,8 +26,10 @@ const useNostrEventsForBoard = (currentboard: number) => {
       limit: 100,
     },
   });
+  // Filter events where event.tags > 1
+  const filteredEvents = events.filter(event => !event.tags.some(tag => tag[0] === "e"));
 
-  return { pinnedEvents, events };
+  return { pinnedEvents, events: filteredEvents };
 };
 
 const Catalog: React.FC<CatalogBannerProps> = ({ currentboard }) => {
