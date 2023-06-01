@@ -4,10 +4,10 @@ import { BlotterMsgsText } from "../../constants/Const";
 const BlotterMsgs = () => {
     return (
         <>
-            <table id="blotter" className="desktop">
+            <table id="blotter">
                 <thead>
                     <tr>
-                        <td colSpan={2}>
+                        <td colSpan={2} >
                             <hr className="aboveMidAd" />
                         </td>
                     </tr>
@@ -20,11 +20,6 @@ const BlotterMsgs = () => {
                         </tr>
                     ))}
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <td colSpan={2}>[<a id="toggleBlotter" href="">Hide</a>]<span> [<a href="" target="_blank">Show All</a>]</span></td>
-                    </tr>
-                </tfoot>
             </table>
         </>
     );

@@ -32,7 +32,7 @@ const BoardBanner: React.FC<BoardBannerProps> = ({ currentboard }) => {
                 </span>
             </div>
             <div className="pageJump">
-                <a href="#bottom">▼</a> <a href="/">Mobile</a> <a href="/" target="_top">Home</a>
+               <a href="/" target="_top">Home</a>
             </div>
             <div className="boardBanner">
                 <div id="bannerCnt" className="title desktop">

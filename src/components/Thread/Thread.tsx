@@ -49,11 +49,6 @@ const Thread = () => {
             <ThreadHeader id={OP_event.id} reply_pk={OP_event.pubkey} />
             <hr className="aboveMidAd" />
             <hr className="desktop" id="op" />
-                <div className="navLinks desktop">
-                    [<a href="#bottom">Bottom</a>]
-                    <span />
-                </div>
-            <hr />
             <form name="delform" id="delform" method="post">
                 <div className="board">
                     <div className="thread" style={{width: '100%'}}>

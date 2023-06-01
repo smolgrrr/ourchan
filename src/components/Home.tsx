@@ -122,7 +122,7 @@ const Home = () => {
         <div id="ft">
           <br className="clear-bug" />
           <div id="copyright"> <a href="https://snort.social/p/npub13azv2cf3kd3xdzcwqxlgcudjg7r9nzak37usnn7h374lkpvd6rcq4k8m54">Contact</a> • <a href="https://github.com/smolgrrr/ourchan">Github</a><br /><br /><br />
-            Fuck Copyright
+            Don't care abt copyright
           </div>
         </div>
       </div>
