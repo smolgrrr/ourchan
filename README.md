@@ -1,5 +1,5 @@
 # OurChan Forum
-## Motivation: Fuck Jannies
+[Gitlab](https://gitlab.com/ourchan/ourchan_react)
 
 This is a fork of 4chan, rebuilt on-top of nostr. WORK-IN-PROGRESS code is messy<br/>
 To steal fiatjaf's words: 'a truly censorship-resistant alternative to [4chan] that actually has a chance of working' <br/>
