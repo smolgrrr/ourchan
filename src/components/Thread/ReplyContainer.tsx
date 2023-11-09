@@ -1,60 +1,40 @@
-import { parseContent } from "../../utils/parseContent";
-import { unixToDate } from "../../utils/utils";
 import { Event } from "nostr-tools";
-import { useNostrEvents } from "nostr-react";
-import QuotePreview from "./QuotePreview";
 import { useState, useEffect } from "react";
-import Backlinks from "./Backlinks";
 import BlockQuote from "./BlockQuote";
-import * as bolt11 from "bolt11";
+import { parseContent } from "../../utils/content";
+import { renderMedia } from "../../utils/FileUpload";
 
 interface ReplyContainerProps {
   event: Event;
-  openPopout: (whichPopout: string, event: Event) => void;
+  openPopout?: (whichPopout: string, event: Event) => void;
 }
+
+const timeUnits = [
+  { unit: 'w', value: 60 * 60 * 24 * 7 },
+  { unit: 'd', value: 60 * 60 * 24 },
+  { unit: 'h', value: 60 * 60 },
+  { unit: 'm', value: 60 },
+];
+
+const timeAgo = (unixTime: number) => {
+  let seconds = Math.floor(new Date().getTime() / 1000 - unixTime);
+
+  if (seconds < 60) return `now`;
+
+  for (let unit of timeUnits) {
+      if (seconds >= unit.value) {
+          return `${Math.floor(seconds / unit.value)}${unit.unit}`;
+      }
+      seconds %= unit.value;
+  }
+};
 
 const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
   const { file, comment } = parseContent(event);
-  const postDate = unixToDate(event.created_at);
-  const [clicked, setClicked] = useState(false);
-  const [zapAmount, setZapAmount] = useState(0);
+  const [clicked, setClicked] = useState(false)
 
   const toggleClick = () => {
     setClicked(!clicked);
-  };
-
-  const zapAddressExists: boolean = event.tags.find(tag => tag[0] === 'zapAddress') !== undefined;
-  const { events: Zaps } = useNostrEvents({
-    filter: {
-        kinds: [9735],
-        '#e': [event.id],
-    },
-  });   
-
-
-  useEffect(() => {
-    const amount = Zaps.reduce((acc, event) => {
-      let zapped = event.tags[1][1];
-      const amount = bolt11.decode(zapped)?.satoshis;
-      return acc + (amount as number);
-    }
-    , 0);
-    setZapAmount(amount);
-
-  }, [Zaps]);
-
-    const renderMedia = () => {
-    if (file && (file.endsWith(".mp4") || file.endsWith(".webm"))) {
-      return (
-        <video controls className="thumb" style={{ maxWidth: "150px", maxHeight: "150px" }}>
-          <source src={file} type="video/mp4" />
-        </video>
-      );
-    } else {
-      return (
-          <img alt="Invalid thread" loading="lazy" className="thumb" style={{ maxWidth: "150px", maxHeight: "150px" }} src={file} />
-      );
-    }
   };
   
   return (
@@ -63,12 +43,11 @@ const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
         <div className="sideArrows">&gt;&gt;</div>
         <div className="post reply">
           <div className="postInfoM mobile">
-            {zapAddressExists && <a href="#" onClick={() => openPopout('zap', event)}><span>&#9889;{zapAmount} </span></a> }
             <span className="nameBlock">
               <span className="name">Anonymous</span>{" "}
             </span>
             <span className="dateTime postNum">
-              {postDate}
+              {timeAgo(event.created_at)}
               <a title="Link to this post">
                 Post:
               </a>
@@ -81,18 +60,17 @@ const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
             </span>
           </div>
           <div className="postInfo desktop">
-            {zapAddressExists && <a href="#" onClick={() => openPopout('zap', event)}><span>&#9889;{zapAmount} </span></a> }
             <span className="nameBlock">
               <span className="name">Anonymous</span>
             </span>
             <span className="dateTime" data-utc={event.created_at}>
-              {postDate}
+            {timeAgo(event.created_at)}
             </span>{" "}
             <span className="postNum desktop">
               <a title="Link to this post">
                 Post:
               </a>
-              <a onClick={() => openPopout('reply', event)} title="Reply to this post">
+              <a title="Reply to this post">
                 ..{event.id.substring(event.id.length - 10)}
               </a>
             </span>
@@ -105,26 +83,8 @@ const ReplyContainer = ({ event, openPopout }: ReplyContainerProps) => {
             >
               ▶
             </a>
-            <Backlinks event={event}/>
           </div>
-          {file !== "" && (
-            <div className="file">
-              <div className="fileText">
-                File:{" "}
-                <a href={file}>
-                  {file && file.substring(file.length - 21)}
-                </a>
-              </div>
-              <a className="fileThumb">
-                <img
-                  src={file}
-                  style={{ maxHeight: clicked ? "none" : "95px", maxWidth: clicked ? "none" : "125px" }}
-                  loading="lazy"
-                  onClick={toggleClick}
-                /> 
-              </a>
-            </div>
-           )}
+            {renderMedia(file)}
           <BlockQuote content={comment} />
         </div>
       </div>

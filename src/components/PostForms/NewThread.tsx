@@ -1,54 +1,89 @@
 import React from 'react';
-import { useNostr } from "nostr-react";
-import { useState } from "react";
-import NostrImg from '../../utils/NostrImg';
+import { useState, useEffect } from "react";
+import { attachFile } from '../../utils/FileUpload';
 import BlotterMsgs from '../Misc/BlotterMsgs';
-import { boards } from "../../constants/Const";
-import { handleThreadSubmit } from '../../utils/postEvent';
+import { UnsignedEvent, generatePrivateKey, getPublicKey } from 'nostr-tools';
+import { XCircleIcon } from "@heroicons/react/24/solid";
+import { renderMedia } from '../../utils/FileUpload';
 
-interface NewThreadProps {
-    currentboard: number;
-}
+const useWorkers = (numCores: number, unsigned: UnsignedEvent, difficulty: string, deps: any[]) => {
+  const [messageFromWorker, setMessageFromWorker] = useState(null);
+  const [doingWorkProgress, setDoingWorkProgress] = useState(0);
 
-const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
-  const board = boards[currentboard];
-  const { publish } = useNostr();
-  const [subject, setSubject] = useState("");
-  const [comment, setComment] = useState("");
-  const [zapAddress, setZapAddress] = useState("");
-  const [hasSubmittedPost, setHasSubmittedPost] = useState(false);
+  const startWork = () => {
+    const workers = Array(numCores).fill(null).map(() => new Worker(new URL("../../powWorker", import.meta.url)));
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    workers.forEach((worker, index) => {
+      worker.onmessage = (event) => {
+        if (event.data.status === 'progress') {
+          console.log(`Worker progress: Checked ${event.data.currentNonce} nonces.`);
+          setDoingWorkProgress(event.data.currentNonce);
+        } else if (event.data.found) {
+          setMessageFromWorker(event.data.event);
+          // Terminate all workers once a solution is found
+          workers.forEach(w => w.terminate());
+        }
+      };
 
-    event.preventDefault();
-
-    try {
-      const newEvent = await handleThreadSubmit(board, subject, comment, zapAddress, hasSubmittedPost);
-      if (newEvent) {
-        publish(newEvent);
-        setHasSubmittedPost(true);
-      }
-    } catch (error) {
-      setComment(comment + " " + error);
-    }
+      worker.postMessage({
+        unsigned,
+        difficulty,
+        nonceStart: index, // Each worker starts from its index
+        nonceStep: numCores  // Each worker increments by the total number of workers
+      });
+    });
   };
 
-  async function attachFile(file_input: File | null) {
-    try {
-      if (file_input) {
-        const rx = await NostrImg(file_input);
-        if (rx.url) {
-          setComment(comment + " " + rx.url);
-        } else if (rx?.error) {
-          setComment(comment + " " + rx.error);
-        }
-      }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        setComment(comment + " " + error?.message);
-      }
-    }
-  }
+  return { startWork, messageFromWorker, doingWorkProgress };
+};
+
+const NewThread: React.FC = () => {
+  const [hasSubmittedPost, setHasSubmittedPost] = useState(false);
+  const [comment, setComment] = useState("");
+  const [file, setFile] = useState("");
+  const [sk, setSk] = useState(generatePrivateKey());
+  const [unsigned, setUnsigned] = useState<UnsignedEvent>({
+    kind: 1,
+    tags: [],
+    content: "",
+    created_at: Math.floor(Date.now() / 1000),
+    pubkey: getPublicKey(sk),
+  });
+  const [difficulty, setDifficulty] = useState(
+    localStorage.getItem("difficulty") || "21"
+  );
+
+  const [uploadingFile, setUploadingFile] = useState(false);
+  const [doingWorkProp, setDoingWorkProp] = useState(false);
+
+  // Initialize the worker outside of any effects
+  const numCores = navigator.hardwareConcurrency || 4;
+
+  const { startWork, messageFromWorker, doingWorkProgress } = useWorkers(numCores, unsigned, difficulty, [unsigned]);
+
+
+  useEffect(() => {
+    const handleDifficultyChange = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      const { difficulty } = customEvent.detail;
+      setDifficulty(difficulty);
+    };
+
+    window.addEventListener("difficultyChanged", handleDifficultyChange);
+
+    return () => {
+      window.removeEventListener("difficultyChanged", handleDifficultyChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    setUnsigned(prevUnsigned => ({
+      ...prevUnsigned,
+      content: `${comment} ${file}`,
+      created_at: Math.floor(Date.now() / 1000),
+      pubkey: getPublicKey(sk),
+    }));
+  }, [comment, file]);
 
   const toggleForm = () => {
     const toggleLink = document.getElementById("togglePostFormLink");
@@ -66,32 +101,21 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
   };
 
   return (
-      <>
-      <form name="post" method="post" encType="multipart/form-data" onSubmit={handleSubmit}><input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
+    <>
+      <form name="post" method="post" encType="multipart/form-data"
+        onSubmit={(event) => {
+          event.preventDefault();
+          startWork();
+          setDoingWorkProp(true);
+        }}>
+        <input type="hidden" name="MAX_FILE_SIZE" defaultValue={4194304} />
         <div id="togglePostFormLink" className="desktop">[<a onClick={toggleForm}>Start a New Thread</a>]
         </div>
         <table className="postForm" id="postForm">
           <tbody>
-            <tr data-type="Subject">
-              <td>Subject*</td>
-              <td><input name="sub" type="text" onChange={(e) => setSubject(e.target.value)} /><input type="submit" defaultValue="Post" tabIndex={6} /></td>
-            </tr>
             <tr data-type="Comment">
               <td>Comment*</td>
               <td><textarea name="com" cols={48} rows={4} wrap="soft" value={comment} onChange={(e) => setComment(e.target.value)} /></td>
-            </tr>
-            <tr data-type="Zaps">
-              <td>Zap pubkey
-              <div className="info_wrapper">
-                  <div className="info_folder">
-                    <div className="info_icon">?</div>
-                    <div className="info_message">
-                      Add a nostr pubkey which already has a lightning address ready to recieve sats to (NIP57)
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td><input name="zap" type="text" placeholder="npub.." onChange={(e) => setZapAddress(e.target.value)} /></td>
             </tr>
             <tr data-type="File">
               <td>File*</td>
@@ -105,6 +129,14 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
               </input>
               </td>
             </tr>
+            <div className="relative">
+              {file !== "" && (
+                <button onClick={() => setFile("")}>
+                  <XCircleIcon className="h-10 w-10 absolute shadow z-100 text-blue-500" />
+                </button>
+              )}
+              {renderMedia(file)}
+            </div>
             <tr>
               <td></td>
               <td>Wait for media link to appear in comment before posting.</td>
@@ -118,7 +150,7 @@ const NewThread: React.FC<NewThreadProps> = ({ currentboard }) => {
             </tr>
           </tfoot>
         </table>
-      <BlotterMsgs />
+        <BlotterMsgs />
       </form>
     </>
   );

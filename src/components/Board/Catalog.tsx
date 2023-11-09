@@ -1,39 +1,46 @@
-import { useNostrEvents } from "nostr-react";
 import EventRow from './EventRow';
-import { boards } from "../../constants/Const";
 import "./thread.css"
-import { PinnedPosts } from "./PinnedPosts";
-import { pinnedPosts } from "../../constants/Const";
+// import { PinnedPosts } from "./PinnedPosts";
+// import { pinnedPosts } from "../../constants/Const";
+import { useEffect, useState } from "react";
+import { uniqBy } from "../../utils/otherUtils"; // Assume getPow is a correct import now
+import { subGlobalFeed } from "../../utils/subscriptions";
+import { verifyPow } from "../../utils/mine";
+import { Event } from "nostr-tools";
+import { parseContent } from '../../utils/content';
 
-interface CatalogBannerProps {
-  currentboard: number;
-}
+const DEFAULT_DIFFICULTY = 20;
 
-const useNostrEventsForBoard = (currentboard: number) => {
-  const board = boards[currentboard];
-  const pinnedPostsBoard: string[] | undefined = pinnedPosts.find(pinnedPost => pinnedPost[0] === board[0]);
+const useUniqEvents = () => {
+  const [events, setEvents] = useState<Event[]>([]);
 
-  const { events: pinnedEvents } = useNostrEvents({
-    filter: {
-      ids: pinnedPostsBoard ? [pinnedPostsBoard[1]] : [],
-    },
-  });
+  useEffect(() => {
+    const onEvent = (event: Event) => setEvents((prevEvents) => [...prevEvents, event]);
+    const unsubscribe = subGlobalFeed(onEvent);
 
-  const { events } = useNostrEvents({
-    filter: {
-       kinds: [1],
-      '#p': [board[1]],
-      limit: 100,
-    },
-  });
-  // Filter events where event.tags > 1
-  const filteredEvents = events.filter(event => !event.tags.some(tag => tag[0] === "e"));
+    return unsubscribe;
+  }, []);
 
-  return { pinnedEvents, events: filteredEvents };
+  return uniqBy(events, "id");
 };
 
-const Catalog: React.FC<CatalogBannerProps> = ({ currentboard }) => {
-  const { pinnedEvents, events } = useNostrEventsForBoard(currentboard);
+const Catalog: React.FC = () => {
+  const filterDifficulty = localStorage.getItem("filterDifficulty") || DEFAULT_DIFFICULTY;
+  const uniqEvents = useUniqEvents();
+
+  const postEvents = uniqEvents
+    .filter((event) =>
+      verifyPow(event) >= Number(filterDifficulty) &&
+      event.kind === 1 &&
+      !event.tags.some((tag) => tag[0] === "e") &&
+      parseContent(event).file
+    )
+
+  const sortedEvents = [...postEvents].sort((a, b) => b.created_at - a.created_at);
+
+  const countReplies = (event: Event) => {
+    return uniqEvents.filter((e) => e.tags.some((tag) => tag[0] === "e" && tag[1] === event.id)).length;
+  };
 
   return (
     <>
@@ -42,8 +49,7 @@ const Catalog: React.FC<CatalogBannerProps> = ({ currentboard }) => {
     </div>
     <div id="content">
       <div id="threads" className="extended-small">
-          {pinnedEvents.map((event) => <PinnedPosts key={event.id} event={event} />)}
-          {events.map((event) => <EventRow key={event.id} event={event} />)}
+          {sortedEvents.map((event) => <EventRow key={event.id} event={event} replyCount={countReplies(event)}/>)}
       </div>
     </div>
     </>

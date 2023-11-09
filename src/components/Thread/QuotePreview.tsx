@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Event } from "../../types/types";
-import { unixToDate } from "../../utils/utils";
-import { parseContent } from "../../utils/parseContent";
+import { Event } from "nostr-tools";
+import { unixToDate } from "../../utils/otherUtils";
+import { parseContent } from "../../utils/content";
 
 type QuotePreviewProps = {
     event: Event;

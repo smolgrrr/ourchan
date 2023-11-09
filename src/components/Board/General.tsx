@@ -13,8 +13,8 @@ const BoardView = () => {
       <BoardBanner currentboard={boardIndex}/>
       <hr className="abovePostForm" />
       <div style={{ position: 'relative' }} />
-      <NewThread currentboard={boardIndex}/>
-      <Catalog currentboard={boardIndex}/>
+      <NewThread />
+      <Catalog />
     </div>
   );
 

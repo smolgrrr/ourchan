@@ -13,7 +13,6 @@ export const relayUrls = [
 export const boards = [
   // ["test", "11feacea2cdd96a605a3d3d2e04d5284e6097ffde743fe0bae2b8f951e9cc0df", "test"],
   ["g", "90e71103a2735cc0d104299e18465bea84876d8dd558ff871e969615c50185c8", "General"],
-  ["f", "1180b2a69b0872fc62639c03557ac5bcfe814454f052afe7b7bcb743db675085", "free"],
 ];
 
 // Blotter Messages

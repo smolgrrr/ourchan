@@ -24,15 +24,10 @@ const BoardBanner: React.FC<BoardBannerProps> = ({ currentboard }) => {
                             {board[0]}
                         </a> /</>
                     ))}]
-                    [{nonChanBoards.map(board => (
-                        <><a key={board[0]} href={`/${board[0]}`} title={board[0]}>
-                            {board[1]}
-                        </a> /</>
-                    ))}]
                 </span>
             </div>
             <div className="pageJump">
-               <a href="/" target="_top">Home</a>
+               <a href="/g" target="_top">Home</a>
             </div>
             <div className="boardBanner">
                 <div id="bannerCnt" className="title desktop">

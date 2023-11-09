@@ -2,7 +2,6 @@ import React from "react";
 import {
   type Event as NostrEvent,
 } from "nostr-tools";
-import ZapPopout from "./ZapPopout";
 import ReplyPopout from "./ReplyPopout";
 
 type PopoutProps = {
@@ -20,10 +19,8 @@ const Popout: React.FC<PopoutProps> = ({
     const popouts: {
         [key: string]: JSX.Element;
         reply: JSX.Element;
-        zap: JSX.Element;
       } = {
         reply: <ReplyPopout events={events} closePopout={closePopout}/>,
-        zap: <ZapPopout event={events[events.length - 1]} closePopout={closePopout}/>,
         null: <></>,
       };
       
